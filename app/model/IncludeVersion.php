@@ -1,23 +1,23 @@
 <?php
-class User extends OBase{
+class IncludeVersion extends OBase{
   function __construct(){
-    $table_name  = 'user';
+    $table_name  = 'include_version';
     $model = [
         'id' => [
           'type'    => Base::PK,
-          'comment' => 'Id único para cada usuario'
+          'comment' => 'Id unico de la version del include'
         ],
-        'user' => [
-          'type'     => Base::TEXT,
-          'size'     => 50,
+        'id_include_type' => [
+          'type'     => Base::NUM,
           'nullable' => false,
-          'comment'  => 'Nombre de usuario'
+          'comment'  => 'Id del tipo de include',
+          'ref'      => 'include_type.id'
         ],
-        'pass' => [
+        'version' => [
           'type'     => Base::TEXT,
-          'size'     => 100,
+          'size'     => 10,
           'nullable' => false,
-          'comment'  => 'Contraseña cifrada del usuario'
+          'comment'  => 'Número de versión del tipo de include'
         ],
         'created_at' => [
           'type'    => Base::CREATED,

@@ -1,23 +1,23 @@
 <?php
-class User extends OBase{
+class IncludeType extends OBase{
   function __construct(){
-    $table_name  = 'user';
+    $table_name  = 'include_type';
     $model = [
         'id' => [
           'type'    => Base::PK,
-          'comment' => 'Id único para cada usuario'
+          'comment' => 'Id único para tipo de include'
         ],
-        'user' => [
+        'name' => [
           'type'     => Base::TEXT,
           'size'     => 50,
           'nullable' => false,
-          'comment'  => 'Nombre de usuario'
+          'comment'  => 'Nombre del tipo de include'
         ],
-        'pass' => [
-          'type'     => Base::TEXT,
-          'size'     => 100,
+        'show_include' => [
+          'type'     => Base::BOOL,
           'nullable' => false,
-          'comment'  => 'Contraseña cifrada del usuario'
+          'default'  => true,
+          'comment'  => 'Indica si debe mostrarse en la lista de includes disponibles'
         ],
         'created_at' => [
           'type'    => Base::CREATED,

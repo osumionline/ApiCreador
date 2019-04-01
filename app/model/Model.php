@@ -1,23 +1,29 @@
 <?php
-class User extends OBase{
+class Model extends OBase{
   function __construct(){
-    $table_name  = 'user';
+    $table_name  = 'model';
     $model = [
         'id' => [
           'type'    => Base::PK,
-          'comment' => 'Id único para cada usuario'
+          'comment' => 'Id único para cada modelo'
         ],
-        'user' => [
-          'type'     => Base::TEXT,
-          'size'     => 50,
+        'id_project' => [
+          'type'     => Base::NUM,
           'nullable' => false,
-          'comment'  => 'Nombre de usuario'
+          'comment'  => 'Id del proyecto al que pertenece el modelo',
+          'ref'      => 'project.id'
         ],
-        'pass' => [
+        'name' => [
           'type'     => Base::TEXT,
           'size'     => 100,
           'nullable' => false,
-          'comment'  => 'Contraseña cifrada del usuario'
+          'comment'  => 'Nombre del modelo'
+        ],
+        'table_name' => [
+          'type'     => Base::TEXT,
+          'size'     => 100,
+          'nullable' => false,
+          'comment'  => 'Nombre de la tabla en la base de datos'
         ],
         'created_at' => [
           'type'    => Base::CREATED,
