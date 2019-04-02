@@ -5,30 +5,46 @@
       "module": "home",
       "urls": [
         {
-          "id": "page_start",
-          "url": "/",
-          "action": "start",
-          "comment": "Start page"
+          "id": "closed",
+          "url": "/closed",
+          "module": "home",
+          "action": "closed",
+          "comment": "Página temporal, sitio cerrado",
+          "layout": "blank"
         },
         {
-          "id": "page_user",
-          "url": "/user/:id",
-          "action": "user",
-          "comment": "User page"
+          "id": "index",
+          "url": "/",
+          "module": "home",
+          "action": "index",
+          "comment": "Home pública"
+        },
+        {
+          "id": "notFound",
+          "url": "/not-found",
+          "module": "home",
+          "action": "notFound",
+          "comment": "Página de error 404"
         }
       ]
     },
     {
       "id": "api",
+      "prefix": "/api",
       "module": "api",
       "type": "json",
-      "prefix": "/api",
       "urls": [
         {
-          "id": "get_date",
-          "url": "/getDate",
-          "action": "getDate",
-          "comment": "Function to get the date"
+          "id": "login",
+          "url": "/login",
+          "action": "login",
+          "comment": "Función para iniciar sesión en la aplicación"
+        },
+        {
+          "id": "register",
+          "url": "/register",
+          "action": "register",
+          "comment": "Función para registrarse en la aplicación"
         }
       ]
     }

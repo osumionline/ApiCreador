@@ -1,15 +1,16 @@
 <?php
 class api extends OController{
-  private $user_service;
+  /*
+   * Función para iniciar sesión en la aplicación
+   */
+  function login($req){
 
-  function __construct(){
-    $this->user_service  = new userService($this);
   }
 
   /*
-   * Function to get the date
+   * Función para registrarse en la aplicación
    */
-  function getDate($req){
-    $this->getTemplate()->add('date', $this->user_service->getLastUpdate());
+  function register($req){
+
   }
 }

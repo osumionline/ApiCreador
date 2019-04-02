@@ -1,30 +1,23 @@
 <?php
 class home extends OController{
-  private $user_service;
-  private $photo_service;
+  /*
+   * Página temporal, sitio cerrado
+   */
+  function closed($req){
 
-  function __construct(){
-    $this->user_service  = new userService($this);
-    $this->photo_service = new photoService($this);
   }
 
   /*
-   * Start page
+   * Home pública
    */
-  function start($req){
-    $users = $this->user_service->getUsers();
+  function index($req){
 
-    $this->getTemplate()->addPartial('users', 'home/users', ['users' => $users]);
   }
 
   /*
-   * User page
+   * Página de error 404
    */
-  function user($req){
-    $user = $this->user_service->getUser($req['id']);
-    $list = $this->photo_service->getPhotos($user->get('id'));
+  function notFound($req){
 
-    $this->getTemplate()->add('name', $user->get('user'));
-    $this->getTemplate()->addPartial('photo_list', 'home/photo_list', ['list'=>$list]);
   }
 }
