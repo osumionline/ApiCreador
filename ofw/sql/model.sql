@@ -14,7 +14,7 @@ CREATE TABLE `project` (
 
 CREATE TABLE `user` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Id único para cada usuario',
-  `user` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT 'Nombre de usuario',
+  `username` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT 'Nombre de usuario',
   `pass` VARCHAR(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT 'Contraseña cifrada del usuario',
   `created_at` DATETIME NOT NULL COMMENT 'Fecha de creación del registro',
   `updated_at` DATETIME NULL COMMENT 'Fecha de última modificación del registro',
@@ -90,6 +90,13 @@ CREATE TABLE `project_config` (
   `db_name` VARCHAR(50) COLLATE utf8_unicode_ci NULL COMMENT 'Nombre de la base de datos',
   `cookies_prefix` VARCHAR(50) COLLATE utf8_unicode_ci NULL COMMENT 'Prefijo para las cookies',
   `cookies_url` VARCHAR(100) COLLATE utf8_unicode_ci NULL COMMENT 'URL para las cookies',
+  `module_browser` TINYINT(1) NOT NULL DEFAULT '' COMMENT 'Indica si habilitar el módulo browser 1 o no 0',
+  `module_email` TINYINT(1) NOT NULL DEFAULT '' COMMENT 'Indica si habilitar el módulo email 1 o no 0',
+  `module_email_smtp` TINYINT(1) NOT NULL DEFAULT '' COMMENT 'Indica si habilitar el módulo browser 1 o no 0',
+  `module_ftp` TINYINT(1) NOT NULL DEFAULT '' COMMENT 'Indica si habilitar el módulo ftp 1 o no 0',
+  `module_image` TINYINT(1) NOT NULL DEFAULT '' COMMENT 'Indica si habilitar el módulo image 1 o no 0',
+  `module_pdf` TINYINT(1) NOT NULL DEFAULT '' COMMENT 'Indica si habilitar el módulo pdf 1 o no 0',
+  `module_translate` TINYINT(1) NOT NULL DEFAULT '' COMMENT 'Indica si habilitar el módulo translate 1 o no 0',
   `base_url` VARCHAR(250) COLLATE utf8_unicode_ci NULL COMMENT 'URL base de la aplicación',
   `admin_email` VARCHAR(100) COLLATE utf8_unicode_ci NULL COMMENT 'Dirección email para notificaciones al admin',
   `default_title` VARCHAR(100) COLLATE utf8_unicode_ci NULL COMMENT 'Título por defecto para las páginas',

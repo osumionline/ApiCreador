@@ -45,6 +45,13 @@
           "url": "/register",
           "action": "register",
           "comment": "Función para registrarse en la aplicación"
+        },
+        {
+          "id": "getProjects",
+          "url": "/get-projects",
+          "action": "getProjects",
+          "filter": "loginFilter",
+          "comment": "Función para obtener la lista de proyectos"
         }
       ]
     }

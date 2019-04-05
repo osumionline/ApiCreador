@@ -49,6 +49,48 @@ class ProjectConfig extends OBase{
           'nullable' => true,
           'comment'  => 'URL para las cookies'
         ],
+        'module_browser' => [
+          'type'     => Base::BOOL,
+          'nullable' => false,
+          'default'  => false,
+          'comment'  => 'Indica si habilitar el módulo browser 1 o no 0'
+        ],
+        'module_email' => [
+          'type'     => Base::BOOL,
+          'nullable' => false,
+          'default'  => false,
+          'comment'  => 'Indica si habilitar el módulo email 1 o no 0'
+        ],
+        'module_email_smtp' => [
+          'type'     => Base::BOOL,
+          'nullable' => false,
+          'default'  => false,
+          'comment'  => 'Indica si habilitar el módulo browser 1 o no 0'
+        ],
+        'module_ftp' => [
+          'type'     => Base::BOOL,
+          'nullable' => false,
+          'default'  => false,
+          'comment'  => 'Indica si habilitar el módulo ftp 1 o no 0'
+        ],
+        'module_image' => [
+          'type'     => Base::BOOL,
+          'nullable' => false,
+          'default'  => false,
+          'comment'  => 'Indica si habilitar el módulo image 1 o no 0'
+        ],
+        'module_pdf' => [
+          'type'     => Base::BOOL,
+          'nullable' => false,
+          'default'  => false,
+          'comment'  => 'Indica si habilitar el módulo pdf 1 o no 0'
+        ],
+        'module_translate' => [
+          'type'     => Base::BOOL,
+          'nullable' => false,
+          'default'  => false,
+          'comment'  => 'Indica si habilitar el módulo translate 1 o no 0'
+        ],
         'base_url' => [
           'type'     => Base::TEXT,
           'size'     => 250,

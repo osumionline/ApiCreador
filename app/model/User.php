@@ -7,7 +7,7 @@ class User extends OBase{
           'type'    => Base::PK,
           'comment' => 'Id único para cada usuario'
         ],
-        'user' => [
+        'username' => [
           'type'     => Base::TEXT,
           'size'     => 50,
           'nullable' => false,
