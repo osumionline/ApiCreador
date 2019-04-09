@@ -52,6 +52,13 @@
           "action": "getProjects",
           "filter": "loginFilter",
           "comment": "Función para obtener la lista de proyectos"
+        },
+        {
+          "id": "getIncludes",
+          "url": "/get-includes",
+          "action": "getIncludes",
+          "filter": "loginFilter",
+          "comment": "Función para obtener la lista de includes para añadir a un proyecto"
         }
       ]
     }

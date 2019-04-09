@@ -14,5 +14,8 @@
   	"pass": "6J9z8#dd",
   	"name": "creador"
   },
-  "base_url": "https://apicreador.osumi.es/"
+  "base_url": "https://apicreador.osumi.es/",
+  "dir": {
+    "include": "/var/www/vhosts/osumi.es/apicreador.osumi.es/include/"
+  }
 }

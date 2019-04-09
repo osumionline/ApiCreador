@@ -107,4 +107,24 @@ class api extends OController{
     $this->getTemplate()->add('status', $status);
     $this->getTemplate()->addPartial('list', 'api/project_list', ['list' => $list, 'extra'=>'nourlencode']);
   }
+
+  /*
+   * Función para obtener la lista de includes para añadir a un proyecto
+   */
+  function getIncludes($req){
+    $status = 'ok';
+    $id     = $req['filter']['id'];
+    $list   = [];
+
+    if (!$id){
+      $status = 'error';
+    }
+
+    if ($status=='ok'){
+      $list = $this->user_service->getIncludes();
+    }
+
+    $this->getTemplate()->add('status', $status);
+    $this->getTemplate()->addPartial('list', 'api/include_list', ['list' => $list, 'extra'=>'nourlencode']);
+  }
 }

@@ -31,4 +31,32 @@ class IncludeType extends OBase{
 
     parent::load($table_name, $model);
   }
+
+  private $versions = null;
+
+  public function getVersions(){
+    if (is_null($this->versions)){
+      $this->loadVersions();
+    }
+    return $this->versions;
+  }
+
+  public function setVersions($list){
+    $this->versions = $list;
+  }
+
+  public function loadVersions(){
+    $sql = "SELECT * FROM `include_version` WHERE `id_include_type` = ? ORDER BY `version` DESC";
+    $this->db->query($sql, [$this->get('id')]);
+    $list = [];
+
+    while ($res = $this->db->next()){
+      $ver = new IncludeVersion();
+      $ver->update($res);
+
+      array_push($list, $ver);
+    }
+
+    $this->setVersions($list);
+  }
 }

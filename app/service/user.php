@@ -19,4 +19,20 @@ class userService extends OService{
 
     return $ret;
   }
+
+  public function getIncludes(){
+    $db = $this->getController()->getDB();
+    $sql = "SELECT * FROM `include_type` WHERE `show_include` = 1 ORDER BY `name`";
+    $db->query($sql);
+    $ret = [];
+
+    while ($res = $db->next()){
+      $inc = new IncludeType();
+      $inc->update($res);
+
+      array_push($ret, $inc);
+    }
+
+    return $ret;
+  }
 }
