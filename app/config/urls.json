@@ -59,6 +59,13 @@
           "action": "getIncludes",
           "filter": "loginFilter",
           "comment": "Función para obtener la lista de includes para añadir a un proyecto"
+        },
+        {
+          "id": "saveProject",
+          "url": "/save-project",
+          "action": "saveProject",
+          "filter": "loginFilter",
+          "comment": "Función para guardar un proyecto"
         }
       ]
     }
