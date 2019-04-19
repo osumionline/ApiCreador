@@ -6,7 +6,8 @@
     "ftp": false,
     "image": false,
     "pdf": false,
-    "translate": false
+    "translate": false,
+    "crypt": true
   },
   "db": {
   	"host": "localhost",
@@ -15,6 +16,9 @@
   	"name": "creador"
   },
   "base_url": "https://apicreador.osumi.es/",
+  "extra": {
+    "crypt_key": "IZc2VDu3432r4RnsH4Mg0YkIoHtWe+G11Ct9N94K06Q="
+  },
   "dir": {
     "include": "/var/www/vhosts/osumi.es/apicreador.osumi.es/include/"
   }

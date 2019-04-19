@@ -21,7 +21,8 @@ class ProjectConfigListItem extends OBase{
         'key' => [
           'type'     => Base::TEXT,
           'size'     => 20,
-          'nullable' => false,
+          'nullable' => true,
+          'default'  => null,
           'comment'  => 'Clave para los tipos extra y dir'
         ],
         'value' => [

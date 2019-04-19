@@ -97,6 +97,7 @@ CREATE TABLE `project_config` (
   `module_image` TINYINT(1) NOT NULL DEFAULT '' COMMENT 'Indica si habilitar el módulo image 1 o no 0',
   `module_pdf` TINYINT(1) NOT NULL DEFAULT '' COMMENT 'Indica si habilitar el módulo pdf 1 o no 0',
   `module_translate` TINYINT(1) NOT NULL DEFAULT '' COMMENT 'Indica si habilitar el módulo translate 1 o no 0',
+  `module_crypt` TINYINT(1) NOT NULL DEFAULT '' COMMENT 'Indica si habilitar el módulo crypt 1 o no 0',
   `base_url` VARCHAR(250) COLLATE utf8_unicode_ci NULL COMMENT 'URL base de la aplicación',
   `admin_email` VARCHAR(100) COLLATE utf8_unicode_ci NULL COMMENT 'Dirección email para notificaciones al admin',
   `default_title` VARCHAR(100) COLLATE utf8_unicode_ci NULL COMMENT 'Título por defecto para las páginas',

@@ -144,6 +144,8 @@ class api extends OController{
     }
 
     if ($status=='ok'){
+      $crypt = new OCrypt( $this->getConfig()->getExtra('crypt_key') );
+
       $pr = new Project();
       if (!is_null($project['id'])){
         $pr->find(['id'=>$project['id']]);
@@ -156,7 +158,7 @@ class api extends OController{
       $pr->set('description', $project['description']);
       $pr->save();
 
-      $prc = new projectConfiguration();
+      $prc = new projectConfig();
       if (!is_null($project['id'])){
         $prc->find(['id_project'=>$project['id']]);
       }
@@ -166,305 +168,140 @@ class api extends OController{
       if ($projectConfiguration['hasDB']){
         $prc->set('db_host', $projectConfiguration['dbHost']);
         $prc->set('db_user', $projectConfiguration['dbUser']);
-        $prc->set('db_pass', $projectConfiguration['dbPass']);
+        $prc->set('db_pass', $crypt->encrypt($projectConfiguration['dbPass']));
         $prc->set('db_name', $projectConfiguration['dbName']);
       }
-    }
-    /*
-    array(5) {
-        ["project"]=>
-        array(4) {
-          ["id"]=>
-          NULL
-          ["name"]=>
-          string(14) "Nuevo proyecto"
-          ["slug"]=>
-          string(14) "nuevo-proyecto"
-          ["description"]=>
-          string(0) ""
+      $prc->set('cookies_prefix',    ($projectConfiguration['cookiesPrefix']=='') ? null : $projectConfiguration['cookiesPrefix']);
+      $prc->set('cookies_url',       ($projectConfiguration['cookiesUrl']=='')    ? null : $projectConfiguration['cookiesUrl']);
+      $prc->set('module_browser',    $projectConfiguration['modBrowser']);
+      $prc->set('module_email',      $projectConfiguration['modEmail']);
+      $prc->set('module_email_smtp', $projectConfiguration['modEmailSmtp']);
+      $prc->set('module_ftp',        $projectConfiguration['modFtp']);
+      $prc->set('module_image',      $projectConfiguration['modImage']);
+      $prc->set('module_pdf',        $projectConfiguration['modPdf']);
+      $prc->set('module_translate',  $projectConfiguration['modTranslate']);
+      $prc->set('module_crypt',      $projectConfiguration['modCrypt']);
+      if ($projectConfiguration['modEmailSmtp']){
+        $prc->set('smtp_host',   $projectConfiguration['smtpHost']);
+        $prc->set('smtp_user',   $projectConfiguration['smtpUser']);
+        $prc->set('smtp_pass',   $crypt->encrypt($projectConfiguration['smtpPass']));
+        $prc->set('smtp_port',   $projectConfiguration['smtpPort']);
+        $prc->set('smtp_secure', $projectConfiguration['smtpSecure']);
+      }
+      $prc->set('base_url',      ($projectConfiguration['baseUrl']=='')      ? null : $projectConfiguration['baseUrl']);
+      $prc->set('admin_email',   ($projectConfiguration['adminEmail']=='')   ? null : $projectConfiguration['adminEmail']);
+      $prc->set('default_title', ($projectConfiguration['defaultTitle']=='') ? null : $projectConfiguration['defaultTitle']);
+      $prc->set('lang',          ($projectConfiguration['lang']=='')         ? null : $projectConfiguration['lang']);
+      $prc->set('error_403',     ($projectConfiguration['error403']=='')     ? null : $projectConfiguration['error403']);
+      $prc->set('error_404',     ($projectConfiguration['error404']=='')     ? null : $projectConfiguration['error404']);
+      $prc->set('error_500',     ($projectConfiguration['error500']=='')     ? null : $projectConfiguration['error500']);
+
+      $prc->save();
+
+      $this->user_service->cleanProjectConfigurationLists($prc->get('id'));
+
+      foreach ($projectConfigurationLists['css'] as $value) {
+        $prcli = new ProjectConfigListItem();
+        $prcli->set('id_project_config', $prc->get('id'));
+        $prcli->set('type', 0);
+        $prcli->set('key', null);
+        $prcli->set('value', $value);
+        $prcli->save();
+      }
+      foreach ($projectConfigurationLists['cssExt'] as $value) {
+        $prcli = new ProjectConfigListItem();
+        $prcli->set('id_project_config', $prc->get('id'));
+        $prcli->set('type', 1);
+        $prcli->set('key', null);
+        $prcli->set('value', $value);
+        $prcli->save();
+      }
+      foreach ($projectConfigurationLists['js'] as $value) {
+        $prcli = new ProjectConfigListItem();
+        $prcli->set('id_project_config', $prc->get('id'));
+        $prcli->set('type', 2);
+        $prcli->set('key', null);
+        $prcli->set('value', $value);
+        $prcli->save();
+      }
+      foreach ($projectConfigurationLists['jsExt'] as $value) {
+        $prcli = new ProjectConfigListItem();
+        $prcli->set('id_project_config', $prc->get('id'));
+        $prcli->set('type', 3);
+        $prcli->set('key', null);
+        $prcli->set('value', $value);
+        $prcli->save();
+      }
+      foreach ($projectConfigurationLists['extra'] as $key_value) {
+        $prcli = new ProjectConfigListItem();
+        $prcli->set('id_project_config', $prc->get('id'));
+        $prcli->set('type', 4);
+        $prcli->set('key', $key_value['key']);
+        $prcli->set('value', $key_value['value']);
+        $prcli->save();
+      }
+      foreach ($projectConfigurationLists['libs'] as $value) {
+        $prcli = new ProjectConfigListItem();
+        $prcli->set('id_project_config', $prc->get('id'));
+        $prcli->set('type', 5);
+        $prcli->set('key', null);
+        $prcli->set('value', $value);
+        $prcli->save();
+      }
+      foreach ($projectConfigurationLists['dir'] as $key_value) {
+        $prcli = new ProjectConfigListItem();
+        $prcli->set('id_project_config', $prc->get('id'));
+        $prcli->set('type', 6);
+        $prcli->set('key', $key_value['key']);
+        $prcli->set('value', $key_value['value']);
+        $prcli->save();
+      }
+
+      foreach ($projectModel as $model){
+        $prm = new Model();
+        if (!is_null($model['id'])){
+          $prm->find(['id'=>$model['id']]);
         }
-        ["projectConfiguration"]=>
-        array(26) {
-          ["baseUrl"]=>
-          string(18) "https://prueba.com"
-          ["adminEmail"]=>
-          string(25) "inigo.gorosabel@gmail.com"
-          ["defaultTitle"]=>
-          string(6) "Prueba"
-          ["lang"]=>
-          string(2) "es"
-          ["hasDB"]=>
-          bool(true)
-          ["dbHost"]=>
-          string(9) "localhost"
-          ["dbName"]=>
-          string(6) "prueba"
-          ["dbUser"]=>
-          string(4) "user"
-          ["dbPass"]=>
-          string(4) "pass"
-          ["cookiesPrefix"]=>
-          string(0) ""
-          ["cookiesUrl"]=>
-          string(0) ""
-          ["modBrowser"]=>
-          bool(false)
-          ["modEmail"]=>
-          bool(true)
-          ["modEmailSmtp"]=>
-          bool(true)
-          ["modFtp"]=>
-          bool(false)
-          ["modImage"]=>
-          bool(false)
-          ["modPdf"]=>
-          bool(false)
-          ["modTranslate"]=>
-          bool(false)
-          ["smtpHost"]=>
-          string(8) "hostsmtp"
-          ["smtpPort"]=>
-          string(3) "487"
-          ["smtpSecure"]=>
-          string(3) "TLS"
-          ["smtpUser"]=>
-          string(8) "usersmtp"
-          ["smtpPass"]=>
-          string(8) "passsmtp"
-          ["error403"]=>
-          string(0) ""
-          ["error404"]=>
-          string(28) "https://prueba.com/not-found"
-          ["error500"]=>
-          string(0) ""
+        else{
+          $prm->set('id_project', $pr->get('id'));
         }
-        ["projectConfigurationLists"]=>
-        array(7) {
-          ["css"]=>
-          array(1) {
-            [0]=>
-            string(6) "common"
+        $prm->set('name',       $model['name']);
+        $prm->set('table_name', $model['tableName']);
+        $prm->save();
+        $model_row_ids = [];
+
+        foreach ($model['rows'] as $row){
+          $prmr = new Row();
+          if (!is_null($row['id'])){
+            $prmr->find(['id'=>$row['id']]);
           }
-          ["cssExt"]=>
-          array(0) {
+          else{
+            $prmr->set('id_model', $prm->get('id'));
           }
-          ["js"]=>
-          array(1) {
-            [0]=>
-            string(6) "common"
-          }
-          ["jsExt"]=>
-          array(0) {
-          }
-          ["libs"]=>
-          array(0) {
-          }
-          ["extra"]=>
-          array(1) {
-            [0]=>
-            array(2) {
-              ["key"]=>
-              string(7) "api_key"
-              ["value"]=>
-              string(30) "afjbefjsifuano93rh29fhufh9qhfq"
-            }
-          }
-          ["dir"]=>
-          array(1) {
-            [0]=>
-            array(2) {
-              ["key"]=>
-              string(8) "includes"
-              ["value"]=>
-              string(17) "/var/www/includes"
-            }
-          }
+          $prmr->set('name',           $row['name']);
+          $prmr->set('type',           $row['type']);
+          $prmr->set('size',           ($row['size']=='') ? null : $row['size']);
+          $prmr->set('auto_increment', $row['autoIncrement']);
+          $prmr->set('nullable',       $row['nullable']);
+          $prmr->set('default',        ($row['defaultValue']=='') ? null : $row['defaultValue']);
+          $prmr->set('ref',            ($row['ref']=='')          ? null : $row['ref']);
+          $prmr->set('comment',        ($row['comment']=='')      ? null : $row['comment']);
+          $prmr->save();
+          
+          array_push($model_row_ids, $prmr->get('id'));
         }
-        ["projectModel"]=>
-        array(1) {
-          [0]=>
-          array(3) {
-            ["name"]=>
-            string(4) "User"
-            ["tableName"]=>
-            string(4) "user"
-            ["rows"]=>
-            array(5) {
-              [0]=>
-              array(8) {
-                ["name"]=>
-                string(2) "id"
-                ["type"]=>
-                string(1) "1"
-                ["size"]=>
-                NULL
-                ["autoIncrement"]=>
-                bool(true)
-                ["nullable"]=>
-                bool(true)
-                ["defaultValue"]=>
-                string(0) ""
-                ["ref"]=>
-                string(0) ""
-                ["comment"]=>
-                string(24) "Id unico de cada usuario"
-              }
-              [1]=>
-              array(8) {
-                ["name"]=>
-                string(8) "username"
-                ["type"]=>
-                string(1) "6"
-                ["size"]=>
-                string(2) "50"
-                ["autoIncrement"]=>
-                bool(false)
-                ["nullable"]=>
-                bool(false)
-                ["defaultValue"]=>
-                string(0) ""
-                ["ref"]=>
-                string(0) ""
-                ["comment"]=>
-                string(17) "Nombre de usuario"
-              }
-              [2]=>
-              array(8) {
-                ["name"]=>
-                string(4) "pass"
-                ["type"]=>
-                string(1) "6"
-                ["size"]=>
-                string(3) "100"
-                ["autoIncrement"]=>
-                bool(false)
-                ["nullable"]=>
-                bool(false)
-                ["defaultValue"]=>
-                string(0) ""
-                ["ref"]=>
-                string(0) ""
-                ["comment"]=>
-                string(31) "Contraseña cifrada del usuario"
-              }
-              [3]=>
-              array(8) {
-                ["name"]=>
-                string(10) "created_at"
-                ["type"]=>
-                string(1) "3"
-                ["size"]=>
-                NULL
-                ["autoIncrement"]=>
-                bool(false)
-                ["nullable"]=>
-                bool(true)
-                ["defaultValue"]=>
-                string(0) ""
-                ["ref"]=>
-                string(0) ""
-                ["comment"]=>
-                string(31) "Fecha de creación del registro"
-              }
-              [4]=>
-              array(8) {
-                ["name"]=>
-                string(10) "updated_at"
-                ["type"]=>
-                string(1) "4"
-                ["size"]=>
-                NULL
-                ["autoIncrement"]=>
-                bool(false)
-                ["nullable"]=>
-                bool(true)
-                ["defaultValue"]=>
-                string(0) ""
-                ["ref"]=>
-                string(0) ""
-                ["comment"]=>
-                string(43) "Fecha de última modificación del registro"
-              }
-            }
-          }
-        }
-        ["includeTypes"]=>
-        array(4) {
-          [0]=>
-          array(4) {
-            ["id"]=>
-            int(2)
-            ["name"]=>
-            string(7) "Angular"
-            ["versions"]=>
-            array(1) {
-              [0]=>
-              array(2) {
-                ["id"]=>
-                int(2)
-                ["version"]=>
-                string(5) "1.7.8"
-              }
-            }
-            ["selected"]=>
-            int(2)
-          }
-          [1]=>
-          array(4) {
-            ["id"]=>
-            int(3)
-            ["name"]=>
-            string(16) "Angular+Material"
-            ["versions"]=>
-            array(1) {
-              [0]=>
-              array(2) {
-                ["id"]=>
-                int(3)
-                ["version"]=>
-                string(6) "1.1.18"
-              }
-            }
-            ["selected"]=>
-            int(3)
-          }
-          [2]=>
-          array(3) {
-            ["id"]=>
-            int(4)
-            ["name"]=>
-            string(9) "Bootstrap"
-            ["versions"]=>
-            array(1) {
-              [0]=>
-              array(2) {
-                ["id"]=>
-                int(4)
-                ["version"]=>
-                string(5) "4.1.3"
-              }
-            }
-          }
-          [3]=>
-          array(3) {
-            ["id"]=>
-            int(1)
-            ["name"]=>
-            string(6) "jQuery"
-            ["versions"]=>
-            array(1) {
-              [0]=>
-              array(2) {
-                ["id"]=>
-                int(1)
-                ["version"]=>
-                string(5) "3.3.1"
-              }
-            }
-          }
+        
+        $this->user_service->cleanDeletedRows($prm->get('id'), $model_row_ids);
+      }
+      
+      $project_includes = [];
+      foreach ($includeTypes as $inc){
+        if (array_key_exists('selected', $inc)){
+          array_push($project_includes, $inc['selected']);
         }
       }
-    */
+      $this->user_service->updateProjectIncludes($pr->get('id'), $project_includes);
+    }
 
     $this->getTemplate()->add('status', $status);
   }

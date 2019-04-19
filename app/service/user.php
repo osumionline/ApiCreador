@@ -35,4 +35,30 @@ class userService extends OService{
 
     return $ret;
   }
+
+  public function cleanProjectConfigurationLists($id_configuration){
+    $db = $this->getController()->getDB();
+    $sql = "DELETE FROM `project_config_list_item` WHERE `id_project_config` = ?";
+    $db->query($sql, [$id_configuration]);
+  }
+  
+  public function cleanDeletedRows($id_model, $model_row_ids){
+    $db = $this->getController()->getDB();
+    $in  = str_repeat('?,', count($model_row_ids) - 1) . '?';
+    array_unshift($model_row_ids, $id_model);
+    $sql = "DELETE FROM `row` WHERE `id_model` = ? AND `id` NOT IN (".$in.")";
+    $db->query($sql, $model_row_ids);
+  }
+  
+  public function updateProjectIncludes($id_project, $project_includes){
+    $db = $this->getController()->getDB();
+    $sql = "DELETE FROM `project_include` WHERE `id_project` = ?";
+    $db->query($sql, [$id_project]);
+    foreach ($project_includes as $inc){
+      $pri = new ProjectInclude();
+      $pri->set('id_project', $id_project);
+      $pri->set('id_type', $inc);
+      $pri->save();
+    }
+  }
 }

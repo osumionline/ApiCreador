@@ -91,6 +91,12 @@ class ProjectConfig extends OBase{
           'default'  => false,
           'comment'  => 'Indica si habilitar el módulo translate 1 o no 0'
         ],
+        'module_crypt' => [
+          'type'     => Base::BOOL,
+          'nullable' => false,
+          'default'  => false,
+          'comment'  => 'Indica si habilitar el módulo crypt 1 o no 0'
+        ],
         'base_url' => [
           'type'     => Base::TEXT,
           'size'     => 250,
