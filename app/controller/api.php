@@ -305,4 +305,51 @@ class api extends OController{
 
     $this->getTemplate()->add('status', $status);
   }
+  
+  /*
+   * Función para obtener los detalles de un proyecto
+   */
+  function getProject($req){
+    $status = 'ok';
+    $id     = Base::getParam('id', $req['url_params'], false);
+    $project       = null;
+    $configuration = null;
+    $lists         = null;
+    $models        = null;
+    $includes      = null;
+    
+    if ($id===false){
+      $status = 'error';
+    }
+    
+    if ($status=='ok'){
+      $project = new Project();
+      if ($project->find(['id' => $id])){
+        $configuration = new projectConfig();
+        if ($configuration->find(['id_project' => $project->get('id')])){
+          $lists    = $this->user_service->getProjectConfigurationLists($configuration->get('id'));
+          $models   = $this->user_service->getProjectModels($project->get('id'));
+          $includes = $this->user_service->getProjectIncludes($project->get('id'));
+        }
+        else{
+          // No encuentro la configuración del proyecto
+          $configuration = null;
+          $project       = null;
+          $status        = 'error';
+        }
+      }
+      else{
+        // No encuentro el proyecto
+        $project = null;
+        $status  = 'error';
+      }
+    }
+    
+    $this->getTemplate()->add('status', $status);
+    $this->getTemplate()->addPartial('project',       'project/project',       ['project'       => $project,       'extra' => 'nourlencode']);
+    $this->getTemplate()->addPartial('configuration', 'project/configuration', ['configuration' => $configuration, 'extra' => 'nourlencode']);
+    $this->getTemplate()->addPartial('lists',         'project/lists',         ['lists'         => $lists,         'extra' => 'nourlencode']);
+    $this->getTemplate()->addPartial('models',        'project/models',        ['models'        => $models,        'extra' => 'nourlencode']);
+    $this->getTemplate()->addPartial('includes',      'project/includes',      ['includes'      => $includes,      'extra' => 'nourlencode']);
+  }
 }

@@ -61,4 +61,52 @@ class userService extends OService{
       $pri->save();
     }
   }
+  
+  public function getProjectConfigurationLists($id_configuration){
+    $db = $this->getController()->getDB();
+    $sql = "SELECT * FROM `project_config_list_item` WHERE `id_project_config` = ?";
+    $db->query($sql, [$id_configuration]);
+    $ret = [];
+    
+    while ($res = $db->next()){
+      $prcli = new ProjectConfigListItem();
+      $prcli->update($res);
+      
+      array_push($ret, $prcli);
+    }
+    
+    return $ret;
+  }
+  
+  public function getProjectModels($id_project){
+    $db = $this->getController()->getDB();
+    $sql = "SELECT * FROM `model` WHERE `id_project` = ?";
+    $db->query($sql, [$id_project]);
+    $ret = [];
+    
+    while ($res = $db->next()){
+      $model = new Model();
+      $model->update($res);
+      
+      array_push($ret, $model);
+    }
+    
+    return $ret;
+  }
+  
+  public function getProjectIncludes($id_project){
+    $db = $this->getController()->getDB();
+    $sql = "SELECT * FROM `project_include` WHERE `id_project` = ?";
+    $db->query($sql, [$id_project]);
+    $ret = [];
+    
+    while ($res = $db->next()){
+      $pri = new ProjectInclude();
+      $pri->update($res);
+      
+      array_push($ret, $pri->get('id_type'));
+    }
+    
+    return $ret;
+  }
 }

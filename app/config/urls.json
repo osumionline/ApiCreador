@@ -66,6 +66,13 @@
           "action": "saveProject",
           "filter": "loginFilter",
           "comment": "Función para guardar un proyecto"
+        },
+        {
+          "id": "getProject",
+          "url": "/get-project",
+          "action": "getProject",
+          "filter": "loginFilter",
+          "comment": "Función para obtener los detalles de un proyecto"
         }
       ]
     }
