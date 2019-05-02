@@ -73,6 +73,13 @@
           "action": "getProject",
           "filter": "loginFilter",
           "comment": "Función para obtener los detalles de un proyecto"
+        },
+        {
+          "id": "deleteProject",
+          "url": "/delete-project",
+          "action": "deleteProject",
+          "filter": "loginFilter",
+          "comment": "Función para borrar un proyecto"
         }
       ]
     }

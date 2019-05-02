@@ -365,4 +365,28 @@ class api extends OController{
     $this->getTemplate()->addPartial('models',        'project/models',        ['models'        => $models,        'extra' => 'nourlencode']);
     $this->getTemplate()->addPartial('includes',      'project/includes',      ['includes'      => $includes,      'extra' => 'nourlencode']);
   }
+
+  /*
+   * Función para borrar un proyecto
+   */
+  function deleteProject($req){
+    $status = 'ok';
+    $id     = Base::getParam('id', $req['url_params'], false);
+
+    if ($id===false){
+      $status = 'error';
+    }
+
+    if ($status=='ok'){
+      $pr = new Project();
+      if ($pr->find(['id'=>$id])){
+        $pr->deleteFull();
+      }
+      else{
+        $status = 'error';
+      }
+    }
+
+    $this->getTemplate()->add('status', $status);
+  }
 }

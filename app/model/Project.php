@@ -42,4 +42,19 @@ class Project extends OBase{
 
     parent::load($table_name, $model);
   }
+
+  public function deleteFull(){
+    $sql = "DELETE FROM `project_include` WHERE `id_project` = ?";
+    $this->db->query($sql, [$this->get('id')]);
+    $sql = "DELETE FROM `project_config_list_item` WHERE `id_project_config` IN (SELECT `id` FROM `project_config` WHERE `id_project` = ?)";
+    $this->db->query($sql, [$this->get('id')]);
+    $sql = "DELETE FROM `project_config` WHERE `id_project` = ?";
+    $this->db->query($sql, [$this->get('id')]);
+    $sql = "DELETE FROM `row` WHERE `id_model` IN (SELECT `id` FROM `model` WHERE `id_project` = ?)";
+    $this->db->query($sql, [$this->get('id')]);
+    $sql = "DELETE FROM `model` WHERE `id_project` = ?";
+    $this->db->query($sql, [$this->get('id')]);
+
+    $this->delete();
+  }
 }
