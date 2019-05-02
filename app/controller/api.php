@@ -171,6 +171,12 @@ class api extends OController{
         $prc->set('db_pass', $crypt->encrypt($projectConfiguration['dbPass']));
         $prc->set('db_name', $projectConfiguration['dbName']);
       }
+      else{
+        $prc->set('db_host', null);
+        $prc->set('db_user', null);
+        $prc->set('db_pass', null);
+        $prc->set('db_name', null);
+      }
       $prc->set('cookies_prefix',    ($projectConfiguration['cookiesPrefix']=='') ? null : $projectConfiguration['cookiesPrefix']);
       $prc->set('cookies_url',       ($projectConfiguration['cookiesUrl']=='')    ? null : $projectConfiguration['cookiesUrl']);
       $prc->set('module_browser',    $projectConfiguration['modBrowser']);
@@ -187,6 +193,13 @@ class api extends OController{
         $prc->set('smtp_pass',   $crypt->encrypt($projectConfiguration['smtpPass']));
         $prc->set('smtp_port',   $projectConfiguration['smtpPort']);
         $prc->set('smtp_secure', $projectConfiguration['smtpSecure']);
+      }
+      else{
+        $prc->set('smtp_host',   null);
+        $prc->set('smtp_user',   null);
+        $prc->set('smtp_pass',   null);
+        $prc->set('smtp_port',   null);
+        $prc->set('smtp_secure', null);
       }
       $prc->set('base_url',      ($projectConfiguration['baseUrl']=='')      ? null : $projectConfiguration['baseUrl']);
       $prc->set('admin_email',   ($projectConfiguration['adminEmail']=='')   ? null : $projectConfiguration['adminEmail']);
@@ -287,13 +300,13 @@ class api extends OController{
           $prmr->set('ref',            ($row['ref']=='')          ? null : $row['ref']);
           $prmr->set('comment',        ($row['comment']=='')      ? null : $row['comment']);
           $prmr->save();
-          
+
           array_push($model_row_ids, $prmr->get('id'));
         }
-        
+
         $this->user_service->cleanDeletedRows($prm->get('id'), $model_row_ids);
       }
-      
+
       $project_includes = [];
       foreach ($includeTypes as $inc){
         if (array_key_exists('selected', $inc)){
@@ -305,7 +318,7 @@ class api extends OController{
 
     $this->getTemplate()->add('status', $status);
   }
-  
+
   /*
    * Función para obtener los detalles de un proyecto
    */
@@ -317,11 +330,11 @@ class api extends OController{
     $lists         = null;
     $models        = null;
     $includes      = null;
-    
+
     if ($id===false){
       $status = 'error';
     }
-    
+
     if ($status=='ok'){
       $project = new Project();
       if ($project->find(['id' => $id])){
@@ -344,7 +357,7 @@ class api extends OController{
         $status  = 'error';
       }
     }
-    
+
     $this->getTemplate()->add('status', $status);
     $this->getTemplate()->addPartial('project',       'project/project',       ['project'       => $project,       'extra' => 'nourlencode']);
     $this->getTemplate()->addPartial('configuration', 'project/configuration', ['configuration' => $configuration, 'extra' => 'nourlencode']);

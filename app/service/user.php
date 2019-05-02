@@ -41,7 +41,7 @@ class userService extends OService{
     $sql = "DELETE FROM `project_config_list_item` WHERE `id_project_config` = ?";
     $db->query($sql, [$id_configuration]);
   }
-  
+
   public function cleanDeletedRows($id_model, $model_row_ids){
     $db = $this->getController()->getDB();
     $in  = str_repeat('?,', count($model_row_ids) - 1) . '?';
@@ -49,7 +49,7 @@ class userService extends OService{
     $sql = "DELETE FROM `row` WHERE `id_model` = ? AND `id` NOT IN (".$in.")";
     $db->query($sql, $model_row_ids);
   }
-  
+
   public function updateProjectIncludes($id_project, $project_includes){
     $db = $this->getController()->getDB();
     $sql = "DELETE FROM `project_include` WHERE `id_project` = ?";
@@ -61,52 +61,67 @@ class userService extends OService{
       $pri->save();
     }
   }
-  
+
   public function getProjectConfigurationLists($id_configuration){
     $db = $this->getController()->getDB();
     $sql = "SELECT * FROM `project_config_list_item` WHERE `id_project_config` = ?";
     $db->query($sql, [$id_configuration]);
-    $ret = [];
-    
+    $ret = ['css' => [], 'css_ext' => [], 'js' => [], 'js_ext' => [], 'libs' => [], 'extra' => [], 'dir' => []];
+
     while ($res = $db->next()){
       $prcli = new ProjectConfigListItem();
       $prcli->update($res);
-      
-      array_push($ret, $prcli);
+
+      switch ($prcli->get('type')){
+        case 0: { array_push($ret['css'], '"'.urlencode($prcli->get('value')).'"'); }
+        break;
+        case 1: { array_push($ret['css_ext'], '"'.urlencode($prcli->get('value')).'"'); }
+        break;
+        case 2: { array_push($ret['js'], '"'.urlencode($prcli->get('value')).'"'); }
+        break;
+        case 3: { array_push($ret['js_ext'], '"'.urlencode($prcli->get('value')).'"'); }
+        break;
+        case 4: { array_push($ret['libs'], '"'.urlencode($prcli->get('value')).'"'); }
+        break;
+        case 5: { array_push($ret['extra'], ['key' => urlencode($prcli->get('key')), 'value' => urlencode($prcli->get('value'))]); }
+        break;
+        case 6: { array_push($ret['dir'], ['key' => urlencode($prcli->get('key')), 'value' => urlencode($prcli->get('value'))]); }
+        break;
+      }
     }
-    
+
     return $ret;
   }
-  
+
   public function getProjectModels($id_project){
     $db = $this->getController()->getDB();
     $sql = "SELECT * FROM `model` WHERE `id_project` = ?";
     $db->query($sql, [$id_project]);
     $ret = [];
-    
+
     while ($res = $db->next()){
       $model = new Model();
       $model->update($res);
-      
+
       array_push($ret, $model);
     }
-    
+
     return $ret;
   }
-  
+
   public function getProjectIncludes($id_project){
     $db = $this->getController()->getDB();
     $sql = "SELECT * FROM `project_include` WHERE `id_project` = ?";
     $db->query($sql, [$id_project]);
     $ret = [];
-    
+
     while ($res = $db->next()){
       $pri = new ProjectInclude();
       $pri->update($res);
-      
+
       array_push($ret, $pri->get('id_type'));
     }
-    
+
     return $ret;
   }
 }

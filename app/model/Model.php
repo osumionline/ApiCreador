@@ -37,4 +37,31 @@ class Model extends OBase{
 
     parent::load($table_name, $model);
   }
+
+  private $rows = null;
+
+  public function getRows(){
+    if (is_null($this->rows)){
+      $this->loadRows();
+    }
+    return $this->rows;
+  }
+
+  public function setRows($rows){
+    $this->rows = $rows;
+  }
+
+  public function loadRows(){
+    $sql = "SELECT * FROM `row` WHERE `id_model` = ?";
+    $this->db->query($sql, [$this->get('id')]);
+    $rows = [];
+
+    while ($res = $this->db->next()){
+      $row = new Row();
+      $row->update($res);
+      array_push($rows, $row);
+    }
+
+    $this->setRows($rows);
+  }
 }
