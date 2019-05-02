@@ -81,9 +81,9 @@ class userService extends OService{
         break;
         case 3: { array_push($ret['js_ext'], '"'.urlencode($prcli->get('value')).'"'); }
         break;
-        case 4: { array_push($ret['libs'], '"'.urlencode($prcli->get('value')).'"'); }
+        case 4: { array_push($ret['extra'], ['key' => urlencode($prcli->get('key')), 'value' => urlencode($prcli->get('value'))]); }
         break;
-        case 5: { array_push($ret['extra'], ['key' => urlencode($prcli->get('key')), 'value' => urlencode($prcli->get('value'))]); }
+        case 5: { array_push($ret['libs'], '"'.urlencode($prcli->get('value')).'"'); }
         break;
         case 6: { array_push($ret['dir'], ['key' => urlencode($prcli->get('key')), 'value' => urlencode($prcli->get('value'))]); }
         break;
