@@ -30,6 +30,12 @@ class Project extends OBase{
           'nullable' => true,
           'comment'  => 'Descripción del proyecto'
         ],
+        'last_compilation' => [
+          'type'     => Base::DATE,
+          'nullable' => true,
+          'default'  => null,
+          'comment'  => 'Fecha de la última compilación'
+        ],
         'created_at' => [
           'type'    => Base::CREATED,
           'comment' => 'Fecha de creación del registro'

@@ -52,7 +52,7 @@ class Model extends OBase{
   }
 
   public function loadRows(){
-    $sql = "SELECT * FROM `row` WHERE `id_model` = ?";
+    $sql = "SELECT * FROM `row` WHERE `id_model` = ? ORDER BY `order`";
     $this->db->query($sql, [$this->get('id')]);
     $rows = [];
 

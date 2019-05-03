@@ -6,6 +6,7 @@ CREATE TABLE `project` (
   `name` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT 'Nombre del proyecto',
   `slug` VARCHAR(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT 'Slug del nombre del proyecto',
   `description` TEXT NULL COMMENT 'Descripción del proyecto',
+  `last_compilation` DATETIME NULL COMMENT 'Fecha de la última compilación',
   `created_at` DATETIME NOT NULL COMMENT 'Fecha de creación del registro',
   `updated_at` DATETIME NULL COMMENT 'Fecha de última modificación del registro',
   PRIMARY KEY (`id`)
@@ -43,6 +44,7 @@ CREATE TABLE `row` (
   `default` VARCHAR(250) COLLATE utf8_unicode_ci NULL COMMENT 'Valor por defecto para un campo',
   `ref` VARCHAR(50) COLLATE utf8_unicode_ci NULL COMMENT 'Referencia a otra tabla',
   `comment` VARCHAR(200) COLLATE utf8_unicode_ci NULL COMMENT 'Comentario para el campo',
+  `order` INT(11) NOT NULL DEFAULT '0' COMMENT 'Orden del campo en el modelo',
   `created_at` DATETIME NOT NULL COMMENT 'Fecha de creación del registro',
   `updated_at` DATETIME NULL COMMENT 'Fecha de última modificación del registro',
   PRIMARY KEY (`id`)
@@ -53,7 +55,7 @@ CREATE TABLE `project_config_list_item` (
   `id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Id único para cada proyecto',
   `id_project_config` INT(11) NOT NULL COMMENT 'Id de la configuración a la que hace referencia',
   `type` INT(11) NOT NULL DEFAULT '0' COMMENT 'Tipo de elemento 0 css 1 ext_css 2 js 3 ext_js 4 extra 5 libs 6 dir',
-  `key` VARCHAR(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT 'Clave para los tipos extra y dir',
+  `key` VARCHAR(20) COLLATE utf8_unicode_ci NULL COMMENT 'Clave para los tipos extra y dir',
   `value` VARCHAR(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT 'Valor del elemento de lista',
   `created_at` DATETIME NOT NULL COMMENT 'Fecha de creación del registro',
   `updated_at` DATETIME NULL COMMENT 'Fecha de última modificación del registro',

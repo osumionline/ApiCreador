@@ -59,6 +59,11 @@ class Row extends OBase{
           'nullable' => true,
           'comment'  => 'Comentario para el campo'
         ],
+        'order' => [
+          'type'     => Base::NUM,
+          'nullable' => false,
+          'comment'  => 'Orden del campo en el modelo'
+        ],
         'created_at' => [
           'type'    => Base::CREATED,
           'comment' => 'Fecha de creación del registro'

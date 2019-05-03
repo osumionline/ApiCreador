@@ -18,7 +18,8 @@
           "nullable": <?php echo $row->get('nullable') ? 'true' : 'false' ?>,
           "defaultValue": <?php echo is_null($row->get('default')) ? 'null' : '"'.$row->get('default').'"' ?>,
           "ref": <?php echo is_null($row->get('ref')) ? 'null' : '"'.$row->get('ref').'"' ?>,
-          "comment": <?php echo is_null($row->get('comment')) ? 'null' : '"'.$row->get('comment').'"' ?>
+          "comment": <?php echo is_null($row->get('comment')) ? 'null' : '"'.$row->get('comment').'"' ?>,
+          "order": <?php echo $row->get('order') ?>
         }<?php if ($j<count($model->getRows())-1): ?>,<?php endif ?>
 <?php endforeach ?>
       ]

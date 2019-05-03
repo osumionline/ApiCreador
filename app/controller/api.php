@@ -168,8 +168,10 @@ class api extends OController{
       if ($projectConfiguration['hasDB']){
         $prc->set('db_host', $projectConfiguration['dbHost']);
         $prc->set('db_user', $projectConfiguration['dbUser']);
-        $prc->set('db_pass', $crypt->encrypt($projectConfiguration['dbPass']));
         $prc->set('db_name', $projectConfiguration['dbName']);
+        if (is_null($project['id']) || (!is_null($project['id']) && $projectConfiguration['dbPass']!='')){
+          $prc->set('db_pass', $crypt->encrypt($projectConfiguration['dbPass']));
+        }
       }
       else{
         $prc->set('db_host', null);
@@ -190,9 +192,11 @@ class api extends OController{
       if ($projectConfiguration['modEmailSmtp']){
         $prc->set('smtp_host',   $projectConfiguration['smtpHost']);
         $prc->set('smtp_user',   $projectConfiguration['smtpUser']);
-        $prc->set('smtp_pass',   $crypt->encrypt($projectConfiguration['smtpPass']));
         $prc->set('smtp_port',   $projectConfiguration['smtpPort']);
         $prc->set('smtp_secure', $projectConfiguration['smtpSecure']);
+        if (is_null($project['id']) || (!is_null($project['id']) && $projectConfiguration['smtpPass']!='')){
+          $prc->set('smtp_pass',   $crypt->encrypt($projectConfiguration['smtpPass']));
+        }
       }
       else{
         $prc->set('smtp_host',   null);
@@ -283,7 +287,7 @@ class api extends OController{
         $prm->save();
         $model_row_ids = [];
 
-        foreach ($model['rows'] as $row){
+        foreach ($model['rows'] as $ind => $row){
           $prmr = new Row();
           if (!is_null($row['id'])){
             $prmr->find(['id'=>$row['id']]);
@@ -299,6 +303,7 @@ class api extends OController{
           $prmr->set('default',        ($row['defaultValue']=='') ? null : $row['defaultValue']);
           $prmr->set('ref',            ($row['ref']=='')          ? null : $row['ref']);
           $prmr->set('comment',        ($row['comment']=='')      ? null : $row['comment']);
+          $prmr->set('order',          $ind);
           $prmr->save();
 
           array_push($model_row_ids, $prmr->get('id'));
