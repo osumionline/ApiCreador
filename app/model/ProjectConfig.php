@@ -181,4 +181,47 @@ class ProjectConfig extends OBase{
 
     parent::load($table_name, $model);
   }
+
+  private $configuration_lists = null;
+
+  public function getProjectConfigurationLists(){
+    if (is_null($this->configuration_lists)){
+      $this->loadProjectConfigurationLists();
+    }
+    return $this->configuration_lists;
+  }
+
+  public function setProjectConfigurationLists($lists){
+    $this->configuration_lists = $lists;
+  }
+
+  private function loadProjectConfigurationLists(){
+    $sql = "SELECT * FROM `project_config_list_item` WHERE `id_project_config` = ?";
+    $this->db->query($sql, [$this->get('id')]);
+    $lists = ['css' => [], 'css_ext' => [], 'js' => [], 'js_ext' => [], 'libs' => [], 'extra' => [], 'dir' => []];
+
+    while ($res = $this->db->next()){
+      $prcli = new ProjectConfigListItem();
+      $prcli->update($res);
+
+      switch ($prcli->get('type')){
+        case 0: { array_push($lists['css'], '"'.urlencode($prcli->get('value')).'"'); }
+        break;
+        case 1: { array_push($lists['css_ext'], '"'.urlencode($prcli->get('value')).'"'); }
+        break;
+        case 2: { array_push($lists['js'], '"'.urlencode($prcli->get('value')).'"'); }
+        break;
+        case 3: { array_push($lists['js_ext'], '"'.urlencode($prcli->get('value')).'"'); }
+        break;
+        case 4: { array_push($lists['extra'], ['key' => urlencode($prcli->get('key')), 'value' => urlencode($prcli->get('value'))]); }
+        break;
+        case 5: { array_push($lists['libs'], '"'.urlencode($prcli->get('value')).'"'); }
+        break;
+        case 6: { array_push($lists['dir'], ['key' => urlencode($prcli->get('key')), 'value' => urlencode($prcli->get('value'))]); }
+        break;
+      }
+    }
+
+    $this->setProjectConfigurationLists($lists);
+  }
 }

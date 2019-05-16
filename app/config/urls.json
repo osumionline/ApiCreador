@@ -80,6 +80,13 @@
           "action": "deleteProject",
           "filter": "loginFilter",
           "comment": "Función para borrar un proyecto"
+        },
+        {
+          "id": "generateProject",
+          "url": "/generate-project",
+          "action": "generateProject",
+          "filter": "loginFilter",
+          "comment": "Función para generar el descargable de un proyecto"
         }
       ]
     }

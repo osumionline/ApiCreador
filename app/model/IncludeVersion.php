@@ -31,4 +31,32 @@ class IncludeVersion extends OBase{
 
     parent::load($table_name, $model);
   }
+
+  private $include_files = null;
+
+  public function getIncludeFiles(){
+    if (is_null($this->include_files)){
+      $this->loadIncludeFiles();
+    }
+    return $this->include_files;
+  }
+
+  public function setIncludeFiles($files){
+    $this->include_files = $files;
+  }
+
+  private function loadIncludeFiles(){
+    $sql = "SELECT * FROM `include_file` WHERE `id_include_version` = ?";
+    $this->db->query($sql, [$this->get('id')]);
+    $files = [];
+
+    while ($res=$this->db->next()){
+      $inc_file = new IncludeFile();
+      $inc_file->update($res);
+
+      array_push($files, $inc_file);
+    }
+
+    $this->setIncludeFiles($files);
+  }
 }

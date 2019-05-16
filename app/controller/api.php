@@ -1,9 +1,11 @@
 <?php
 class api extends OController{
   private $user_service;
+  private $project_service;
 
   function __construct(){
     $this->user_service = new userService($this);
+    $this->project_service = new projectService($this);
   }
 
   /*
@@ -343,18 +345,10 @@ class api extends OController{
     if ($status=='ok'){
       $project = new Project();
       if ($project->find(['id' => $id])){
-        $configuration = new projectConfig();
-        if ($configuration->find(['id_project' => $project->get('id')])){
-          $lists    = $this->user_service->getProjectConfigurationLists($configuration->get('id'));
-          $models   = $this->user_service->getProjectModels($project->get('id'));
-          $includes = $this->user_service->getProjectIncludes($project->get('id'));
-        }
-        else{
-          // No encuentro la configuración del proyecto
-          $configuration = null;
-          $project       = null;
-          $status        = 'error';
-        }
+        $configuration = $project->getProjectConfig();
+        $lists         = $configuration->getProjectConfigurationLists();
+        $models        = $project->getProjectModels();
+        $includes      = $project->getProjectIncludes();
       }
       else{
         // No encuentro el proyecto
@@ -393,5 +387,54 @@ class api extends OController{
     }
 
     $this->getTemplate()->add('status', $status);
+  }
+
+  /*
+   * Función para generar el descargable de un proyecto
+   */
+  function generateProject($req){
+    $status = 'ok';
+    $id     = Base::getParam('id',   $req['url_params'], false);
+    $step   = Base::getParam('step', $req['url_params'], false);
+    $date   = '';
+
+    if ($id===false || $step===false){
+      $status = 'error';
+    }
+
+    if ($status=='ok'){
+      $pr = new Project();
+      if ($pr->find(['id'=>$id])){
+        if ($pr->get('id_user')==$req['filter']['id']){
+          switch($step){
+            case 0: { $this->project_service->createBasicStructure($pr); }
+            break;
+            case 1: { $this->project_service->createConfigFile($pr); }
+            break;
+            case 2: { $this->project_service->createModels($pr); }
+            break;
+            case 3: { $this->project_service->addIncludes($pr); }
+            break;
+            case 4: {
+              $this->project_service->packToZip($pr);
+              $date = date('Y-m-d H:i:s', time());
+
+              $pr->set('last_compilation', $date);
+              $pr->save();
+            }
+            break;
+          }
+        }
+        else{
+          $status = 'error';
+        }
+      }
+      else{
+        $status = 'error';
+      }
+    }
+
+    $this->getTemplate()->add('status', $status);
+    $this->getTemplate()->add('date',   $date);
   }
 }
