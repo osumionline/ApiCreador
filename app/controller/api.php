@@ -191,6 +191,7 @@ class api extends OController{
       $prc->set('module_pdf',        $projectConfiguration['modPdf']);
       $prc->set('module_translate',  $projectConfiguration['modTranslate']);
       $prc->set('module_crypt',      $projectConfiguration['modCrypt']);
+      $prc->set('module_file',       $projectConfiguration['modFile']);
       if ($projectConfiguration['modEmailSmtp']){
         $prc->set('smtp_host',   $projectConfiguration['smtpHost']);
         $prc->set('smtp_user',   $projectConfiguration['smtpUser']);

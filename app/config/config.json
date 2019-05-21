@@ -7,7 +7,8 @@
     "image": false,
     "pdf": false,
     "translate": false,
-    "crypt": true
+    "crypt": true,
+    "file": true
   },
   "db": {
   	"host": "localhost",

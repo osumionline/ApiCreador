@@ -21,6 +21,7 @@
     "modPdf": <?php echo $values['configuration']->get('module_pdf') ? 'true' : 'false' ?>,
     "modTranslate": <?php echo $values['configuration']->get('module_translate') ? 'true' : 'false' ?>,
     "modCrypt": <?php echo $values['configuration']->get('module_crypt') ? 'true' : 'false' ?>,
+    "modFile": <?php echo $values['configuration']->get('module_file') ? 'true' : 'false' ?>,
     "smtpHost": <?php echo (!is_null($values['configuration']->get('smtp_host'))) ? '"'.urlencode($values['configuration']->get('smtp_host')).'"' : 'null' ?>,
     "smtpPort": <?php echo (!is_null($values['configuration']->get('smtp_port'))) ? '"'.urlencode($values['configuration']->get('smtp_port')).'"' : 'null' ?>,
     "smtpSecure": <?php echo (!is_null($values['configuration']->get('smtp_secure'))) ? '"'.urlencode($values['configuration']->get('smtp_secure')).'"' : 'null' ?>,

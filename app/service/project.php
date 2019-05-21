@@ -8,93 +8,21 @@ class projectService extends OService{
     $c = $this->getController()->getConfig();
     $route = $c->getDir('ofw_tmp').'user_'.$project->get('id_user').'/project_'.$project->get('id');
     if (file_exists($route)){
-      Base::rrmdir($route);
+      OFile::rrmdir($route);
     }
     mkdir($route);
 
-    $folder_list = [
-      'app',
-      'app/cache',
-      'app/config',
-      'app/controller',
-      'app/filter',
-      'app/model',
-      'app/service',
-      'app/task',
-      'app/template',
-      'app/template/layout',
-      'app/template/partials',
-      'logs',
-      'ofw',
-      'ofw/base',
-      'ofw/lib',
-      'ofw/lib/email',
-      'ofw/lib/pdf',
-      'ofw/lib/routing',
-      'ofw/sql',
-      'ofw/task',
-      'ofw/tmp',
-      'web'
-    ];
+    $folder_list = OFile::getOFWFolders();
 
     foreach ($folder_list as $folder){
       mkdir($route.'/'.$folder, 0777, true);
     }
 
-    $file_list = [
-      ['template'=>'config/translations.json', 'to'=>'app/config/translations.json'],
-      ['template'=>'config/urls.json', 'to'=>'app/config/urls.json'],
-      ['template'=>'template/default.php', 'to'=>'app/template/layout/default.php'],
-      'ofw/base/base.php',
-      'ofw/base/OBase.php',
-      'ofw/base/OBrowser.php',
-      'ofw/base/OCache.php',
-      'ofw/base/OColors.php',
-      'ofw/base/OConfig.php',
-      'ofw/base/OController.php',
-      'ofw/base/OCookie.php',
-      'ofw/base/OCrypt.php',
-      'ofw/base/ODB.php',
-      'ofw/base/ODBContainer.php',
-      'ofw/base/OEmail.php',
-      'ofw/base/OForm.php',
-      'ofw/base/OFTP.php',
-      'ofw/base/OImage.php',
-      'ofw/base/OLog.php',
-      'ofw/base/OPDF.php',
-      'ofw/base/OService.php',
-      'ofw/base/OSession.php',
-      'ofw/base/OTemplate.php',
-      'ofw/base/OToken.php',
-      'ofw/base/OTranslate.php',
-      'ofw/base/OUrl.php',
-      'ofw/base/start.php',
-      'ofw/base/updates.json',
-      'ofw/base/VERSION',
-      'ofw/lib/email/.gitignore',
-      'ofw/lib/email/email.txt',
-      'ofw/lib/email/Exception.php',
-      'ofw/lib/email/PHPMailer.php',
-      'ofw/lib/email/SMTP.php',
-      'ofw/lib/pdf/.gitignore',
-      'ofw/lib/pdf/pdf.txt',
-      'ofw/lib/routing/sfObjectRoute.class.php',
-      'ofw/lib/routing/sfObjectRouteCollection.class.php',
-      'ofw/lib/routing/sfPatternRouting.class.php',
-      'ofw/lib/routing/sfRequestRoute.class.php',
-      'ofw/lib/routing/sfRoute.class.php',
-      'ofw/lib/routing/sfRouteCollection.class.php',
-      'ofw/lib/routing/sfRouting.class.php',
-      'ofw/task/composer.php',
-      'ofw/task/generateModel.php',
-      'ofw/task/update.php',
-      'ofw/task/updateCheck.php',
-      'ofw/task/updateUrls.php',
-      'ofw/task/version.php',
-      'web/index.php',
-      ['template'=>'web/.htaccess', 'to'=>'web/.htaccess'],
-      'ofw.php'
-    ];
+    $file_list = OFile::getOFWFiles();
+    array_push($file_list, ['template'=>'config/translations.json', 'to'=>'app/config/translations.json']);
+    array_push($file_list, ['template'=>'config/urls.json', 'to'=>'app/config/urls.json']);
+    array_push($file_list, ['template'=>'template/default.php', 'to'=>'app/template/layout/default.php']);
+    array_push($file_list, ['template'=>'web/.htaccess', 'to'=>'web/.htaccess']);
 
     foreach ($file_list as $file){
       if (is_array($file)){
@@ -118,7 +46,7 @@ class projectService extends OService{
     $lists         = $configuration->getProjectConfigurationLists();
 
     $conf = "{\n";
-    if ($configuration->get('module_browser') || $configuration->get('module_email') || $configuration->get('module_email_smtp') || $configuration->get('module_ftp') || $module->get('module_image') || $configuration->get('module_pdf') || $configuration->get('module_translate') || $configuration->get('module_crypt')){
+    if ($configuration->get('module_browser') || $configuration->get('module_email') || $configuration->get('module_email_smtp') || $configuration->get('module_ftp') || $module->get('module_image') || $configuration->get('module_pdf') || $configuration->get('module_translate') || $configuration->get('module_crypt') || $configuration->get('module_file')){
       $conf .= "  \"base_modules\": {\n";
       $conf .= "    \"browser\": ".($configuration->get('module_browser') ? 'true' : 'false').",\n";
       $conf .= "    \"email\": ".($configuration->get('module_email') ? 'true' : 'false').",\n";
@@ -127,7 +55,8 @@ class projectService extends OService{
       $conf .= "    \"image\": ".($configuration->get('module_image') ? 'true' : 'false').",\n";
       $conf .= "    \"pdf\": ".($configuration->get('module_pdf') ? 'true' : 'false').",\n";
       $conf .= "    \"translate\": ".($configuration->get('module_translate') ? 'true' : 'false').",\n";
-      $conf .= "    \"crypt\": ".($configuration->get('module_crypt') ? 'true' : 'false')."\n";
+      $conf .= "    \"crypt\": ".($configuration->get('module_crypt') ? 'true' : 'false').",\n";
+      $conf .= "    \"file\": ".($configuration->get('module_file') ? 'true' : 'false')."\n";
       $conf .= "  },\n";
     }
     if (!is_null($configuration->get('db_host')) || !is_null($configuration->get('db_user')) || !is_null($configuration->get('db_pass')) || !is_null($configuration->get('db_name'))){
@@ -305,41 +234,9 @@ class projectService extends OService{
     $c         = $this->getController()->getConfig();
     $route     = $c->getDir('ofw_tmp').'user_'.$project->get('id_user').'/project_'.$project->get('id');
     $route_zip = $c->getDir('ofw_tmp').'user_'.$project->get('id_user').'/'.$project->get('slug').'.zip';
-//echo "ROUTE: ".$route."\n";
-//echo "ROUTE ZIP: ".$route_zip."\n";
 
-    if (file_exists($route_zip)){
-      unlink($route_zip);
-    }
-//return true;
-    // Initialize archive object
-    $zip = new ZipArchive();
-    $zip->open($route_zip, ZipArchive::CREATE);
-
-    // Create recursive directory iterator
-    /** @var SplFileInfo[] $files */
-    $files = new RecursiveIteratorIterator(
-        new RecursiveDirectoryIterator($route),
-        RecursiveIteratorIterator::LEAVES_ONLY
-    );
-
-    foreach ($files as $name => $file)
-    {
-        // Skip directories (they would be added automatically)
-        //if (!$file->isDir())
-        //{
-            // Get real and relative path for current file
-            $filePath = $file->getRealPath();
-            $relativePath = str_ireplace($route.'/', '', $filePath);
-
-            // Add current file to archive
-echo "FILEPATH: ".$filePath."\n";
-echo "NEWPATH: ".$relativePath."\n";
-            $zip->addFile($filePath, $relativePath);
-        //}
-    }
-
-    // Zip archive will be created only after closing object
-    $zip->close();
+    $zip_file = new OFile();
+    $zip_file->zip($route, $route_zip, $project->get('slug'));
+    OFile::rrmdir($route);
   }
 }
