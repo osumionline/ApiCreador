@@ -87,6 +87,12 @@
           "action": "generateProject",
           "filter": "loginFilter",
           "comment": "Función para generar el descargable de un proyecto"
+        },
+        {
+          "id": "downloadProject",
+          "url": "/download-project/:id",
+          "action": "downloadProject",
+          "comment": "Función para descargar el archivo ZIP de un proyecto"
         }
       ]
     }

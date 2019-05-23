@@ -438,4 +438,35 @@ class api extends OController{
     $this->getTemplate()->add('status', $status);
     $this->getTemplate()->add('date',   $date);
   }
+
+  /*
+   * Función para descargar el archivo ZIP de un proyecto
+   */
+  function downloadProject($req){
+    $status = 'ok';
+    $id     = Base::getParam('id', $req, false);
+
+    if ($id===false){
+      $status = 'error';
+    }
+
+    if ($status=='ok'){
+      $project = new Project();
+      if ($project->find(['id'=>$id])){
+        $filename = $project->get('slug').'.zip';
+        $route_zip = $this->getConfig()->getDir('ofw_tmp').'user_'.$project->get('id_user').'/'.$filename;
+
+        if (file_exists($route_zip)){
+          header('Content-Type: application/zip');
+          header("Content-Transfer-Encoding: Binary");
+          header("Content-disposition: attachment; filename=".$filename);
+          readfile($route_zip);
+          exit();
+        }
+      }
+    }
+
+    echo 'ERROR';
+    exit();
+  }
 }
