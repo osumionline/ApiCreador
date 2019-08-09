@@ -46,7 +46,15 @@ class projectService extends OService{
     $lists         = $configuration->getProjectConfigurationLists();
 
     $conf = "{\n";
-    if ($configuration->get('module_browser') || $configuration->get('module_email') || $configuration->get('module_email_smtp') || $configuration->get('module_ftp') || $module->get('module_image') || $configuration->get('module_pdf') || $configuration->get('module_translate') || $configuration->get('module_crypt') || $configuration->get('module_file')){
+    if ($configuration->get('module_browser') ||
+        $configuration->get('module_email') ||
+        $configuration->get('module_email_smtp') ||
+        $configuration->get('module_ftp') ||
+        $configuration->get('module_image') ||
+        $configuration->get('module_pdf') ||
+        $configuration->get('module_translate') ||
+        $configuration->get('module_crypt') ||
+        $configuration->get('module_file')){
       $conf .= "  \"base_modules\": {\n";
       $conf .= "    \"browser\": ".($configuration->get('module_browser') ? 'true' : 'false').",\n";
       $conf .= "    \"email\": ".($configuration->get('module_email') ? 'true' : 'false').",\n";
