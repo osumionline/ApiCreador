@@ -177,10 +177,11 @@ class api extends OController{
         }
       }
       else{
-        $prc->set('db_host', null);
-        $prc->set('db_user', null);
-        $prc->set('db_pass', null);
-        $prc->set('db_name', null);
+        $prc->set('db_host',    null);
+        $prc->set('db_user',    null);
+        $prc->set('db_pass',    null);
+        $prc->set('db_name',    null);
+        $prc->set('db_charset', null);
       }
       $prc->set('cookies_prefix',    ($projectConfiguration['cookiesPrefix']=='') ? null : $projectConfiguration['cookiesPrefix']);
       $prc->set('cookies_url',       ($projectConfiguration['cookiesUrl']=='')    ? null : $projectConfiguration['cookiesUrl']);
