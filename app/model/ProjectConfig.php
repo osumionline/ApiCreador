@@ -37,6 +37,12 @@ class ProjectConfig extends OBase{
           'nullable' => true,
           'comment'  => 'Nombre de la base de datos'
         ],
+        'db_charset' => [
+          'type'     => Base::TEXT,
+          'size'     => 50,
+          'nullable' => true,
+          'comment'  => 'Charset de la base de datos'
+        ],
         'cookies_prefix' => [
           'type'     => Base::TEXT,
           'size'     => 50,

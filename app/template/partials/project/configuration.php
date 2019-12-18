@@ -11,6 +11,7 @@
     "dbName": <?php echo (!is_null($values['configuration']->get('db_name'))) ? '"'.urlencode($values['configuration']->get('db_name')).'"' : 'null' ?>,
     "dbUser": <?php echo (!is_null($values['configuration']->get('db_user'))) ? '"'.urlencode($values['configuration']->get('db_user')).'"' : 'null' ?>,
     "dbPass": null,
+    "dbCharset": <?php echo (!is_null($values['configuration']->get('db_charset'))) ? '"'.urlencode($values['configuration']->get('db_charset')).'"' : '"utf8mb4_unicode_ci"' ?>,
     "cookiesPrefix": <?php echo (!is_null($values['configuration']->get('cookies_prefix'))) ? '"'.urlencode($values['configuration']->get('cookies_prefix')).'"' : 'null' ?>,
     "cookiesUrl": <?php echo (!is_null($values['configuration']->get('cookies_url'))) ? '"'.urlencode($values['configuration']->get('cookies_url')).'"' : 'null' ?>,
     "modBrowser": <?php echo $values['configuration']->get('module_browser') ? 'true' : 'false' ?>,

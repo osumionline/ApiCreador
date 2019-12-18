@@ -168,9 +168,10 @@ class api extends OController{
         $prc->set('id_project', $pr->get('id'));
       }
       if ($projectConfiguration['hasDB']){
-        $prc->set('db_host', $projectConfiguration['dbHost']);
-        $prc->set('db_user', $projectConfiguration['dbUser']);
-        $prc->set('db_name', $projectConfiguration['dbName']);
+        $prc->set('db_host',    $projectConfiguration['dbHost']);
+        $prc->set('db_user',    $projectConfiguration['dbUser']);
+        $prc->set('db_name',    $projectConfiguration['dbName']);
+        $prc->set('db_charset', $projectConfiguration['dbCharset']);
         if (is_null($project['id']) || (!is_null($project['id']) && $projectConfiguration['dbPass']!='')){
           $prc->set('db_pass', $crypt->encrypt($projectConfiguration['dbPass']));
         }
