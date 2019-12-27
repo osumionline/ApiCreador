@@ -172,6 +172,7 @@ class api extends OController{
         $prc->set('db_user',    $projectConfiguration['dbUser']);
         $prc->set('db_name',    $projectConfiguration['dbName']);
         $prc->set('db_charset', $projectConfiguration['dbCharset']);
+        $prc->set('db_collate', $projectConfiguration['dbCollate']);
         if (is_null($project['id']) || (!is_null($project['id']) && $projectConfiguration['dbPass']!='')){
           $prc->set('db_pass', $crypt->encrypt($projectConfiguration['dbPass']));
         }
@@ -182,6 +183,7 @@ class api extends OController{
         $prc->set('db_pass',    null);
         $prc->set('db_name',    null);
         $prc->set('db_charset', null);
+        $prc->set('db_collate', null);
       }
       $prc->set('cookies_prefix',    ($projectConfiguration['cookiesPrefix']=='') ? null : $projectConfiguration['cookiesPrefix']);
       $prc->set('cookies_url',       ($projectConfiguration['cookiesUrl']=='')    ? null : $projectConfiguration['cookiesUrl']);

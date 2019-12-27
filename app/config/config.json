@@ -1,15 +1,4 @@
 {
-  "base_modules": {
-    "browser": false,
-    "email": true,
-    "email_smtp": false,
-    "ftp": false,
-    "image": false,
-    "pdf": false,
-    "translate": false,
-    "crypt": true,
-    "file": true
-  },
   "db": {
   	"host": "localhost",
   	"user": "creador",
