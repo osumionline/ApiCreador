@@ -1,1 +1,1 @@
-{"plugins":["email","crypt","file"]}
+{"plugins":["email","crypt","file","token"]}
