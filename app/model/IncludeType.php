@@ -1,30 +1,30 @@
 <?php
-class IncludeType extends OBase{
+class IncludeType extends OModel{
   function __construct(){
     $table_name  = 'include_type';
     $model = [
         'id' => [
-          'type'    => Base::PK,
+          'type'    => OCore::PK,
           'comment' => 'Id único para tipo de include'
         ],
         'name' => [
-          'type'     => Base::TEXT,
+          'type'     => OCore::TEXT,
           'size'     => 50,
           'nullable' => false,
           'comment'  => 'Nombre del tipo de include'
         ],
         'show_include' => [
-          'type'     => Base::BOOL,
+          'type'     => OCore::BOOL,
           'nullable' => false,
           'default'  => true,
           'comment'  => 'Indica si debe mostrarse en la lista de includes disponibles'
         ],
         'created_at' => [
-          'type'    => Base::CREATED,
+          'type'    => OCore::CREATED,
           'comment' => 'Fecha de creación del registro'
         ],
         'updated_at' => [
-          'type'    => Base::UPDATED,
+          'type'    => OCore::UPDATED,
           'comment' => 'Fecha de última modificación del registro'
         ]
     ];

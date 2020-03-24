@@ -1,30 +1,30 @@
 <?php
-class IncludeVersion extends OBase{
+class IncludeVersion extends OModel{
   function __construct(){
     $table_name  = 'include_version';
     $model = [
         'id' => [
-          'type'    => Base::PK,
+          'type'    => OCore::PK,
           'comment' => 'Id unico de la version del include'
         ],
         'id_include_type' => [
-          'type'     => Base::NUM,
+          'type'     => OCore::NUM,
           'nullable' => false,
           'comment'  => 'Id del tipo de include',
           'ref'      => 'include_type.id'
         ],
         'version' => [
-          'type'     => Base::TEXT,
+          'type'     => OCore::TEXT,
           'size'     => 10,
           'nullable' => false,
           'comment'  => 'Número de versión del tipo de include'
         ],
         'created_at' => [
-          'type'    => Base::CREATED,
+          'type'    => OCore::CREATED,
           'comment' => 'Fecha de creación del registro'
         ],
         'updated_at' => [
-          'type'    => Base::UPDATED,
+          'type'    => OCore::UPDATED,
           'comment' => 'Fecha de última modificación del registro'
         ]
     ];

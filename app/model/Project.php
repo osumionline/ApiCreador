@@ -1,47 +1,47 @@
 <?php
-class Project extends OBase{
+class Project extends OModel{
   function __construct(){
     $table_name  = 'project';
     $model = [
         'id' => [
-          'type'    => Base::PK,
+          'type'    => OCore::PK,
           'comment' => 'Id único para cada proyecto'
         ],
         'id_user' => [
-          'type'     => Base::NUM,
+          'type'     => OCore::NUM,
           'nullable' => false,
           'comment'  => 'Id del usuario dueño del proyecto',
           'ref'      => 'user.id'
         ],
         'name' => [
-          'type'     => Base::TEXT,
+          'type'     => OCore::TEXT,
           'size'     => 50,
           'nullable' => false,
           'comment'  => 'Nombre del proyecto'
         ],
         'slug' => [
-          'type'     => Base::TEXT,
+          'type'     => OCore::TEXT,
           'size'     => 50,
           'nullable' => false,
           'comment'  => 'Slug del nombre del proyecto'
         ],
         'description' => [
-          'type'     => Base::LONGTEXT,
+          'type'     => OCore::LONGTEXT,
           'nullable' => true,
           'comment'  => 'Descripción del proyecto'
         ],
         'last_compilation' => [
-          'type'     => Base::DATE,
+          'type'     => OCore::DATE,
           'nullable' => true,
           'default'  => null,
           'comment'  => 'Fecha de la última compilación'
         ],
         'created_at' => [
-          'type'    => Base::CREATED,
+          'type'    => OCore::CREATED,
           'comment' => 'Fecha de creación del registro'
         ],
         'updated_at' => [
-          'type'    => Base::UPDATED,
+          'type'    => OCore::UPDATED,
           'comment' => 'Fecha de última modificación del registro'
         ]
     ];

@@ -13,8 +13,8 @@ class api extends OController{
    */
   function login($req){
     $status = 'ok';
-    $name   = Base::getParam('name', $req['url_params'], false);
-    $pass   = Base::getParam('pass', $req['url_params'], false);
+    $name   = OTools::getParam('name', $req['params'], false);
+    $pass   = OTools::getParam('pass', $req['params'], false);
 
     $id    = 'null';
     $token = '';
@@ -55,8 +55,8 @@ class api extends OController{
    */
   function register($req){
     $status = 'ok';
-    $name   = Base::getParam('name', $req['url_params'], false);
-    $pass   = Base::getParam('pass', $req['url_params'], false);
+    $name   = OTools::getParam('name', $req['params'], false);
+    $pass   = OTools::getParam('pass', $req['params'], false);
     $id     = 'null';
     $token  = '';
 
@@ -95,7 +95,7 @@ class api extends OController{
    */
   function getProjects($req){
     $status = 'ok';
-    $id     = $req['filter']['id'];
+    $id     = $req['loginFilter']['id'];
     $list   = [];
 
     if (!$id){
@@ -115,7 +115,7 @@ class api extends OController{
    */
   function getIncludes($req){
     $status = 'ok';
-    $id     = $req['filter']['id'];
+    $id     = $req['loginFilter']['id'];
     $list   = [];
 
     if (!$id){
@@ -135,11 +135,11 @@ class api extends OController{
    */
   function saveProject($req){
     $status = 'ok';
-    $project                   = Base::getParam('project',                   $req['url_params'], false);
-    $projectConfiguration      = Base::getParam('projectConfiguration',      $req['url_params'], false);
-    $projectConfigurationLists = Base::getParam('projectConfigurationLists', $req['url_params'], false);
-    $projectModel              = Base::getParam('projectModel',              $req['url_params'], false);
-    $includeTypes              = Base::getParam('includeTypes',              $req['url_params'], false);
+    $project                   = OTools::getParam('project',                   $req['params'], false);
+    $projectConfiguration      = OTools::getParam('projectConfiguration',      $req['params'], false);
+    $projectConfigurationLists = OTools::getParam('projectConfigurationLists', $req['params'], false);
+    $projectModel              = OTools::getParam('projectModel',              $req['params'], false);
+    $includeTypes              = OTools::getParam('includeTypes',              $req['params'], false);
 
     if ($project===false || $projectConfiguration===false || $projectConfigurationLists===false || $projectModel===false || $includeTypes===false){
       $status = false;
@@ -153,10 +153,10 @@ class api extends OController{
         $pr->find(['id'=>$project['id']]);
       }
       else{
-        $pr->set('id_user', $req['filter']['id']);
+        $pr->set('id_user', $req['loginFilter']['id']);
       }
       $pr->set('name', $project['name']);
-      $pr->set('slug', Base::slugify($project['name']));
+      $pr->set('slug', OTools::slugify($project['name']));
       $pr->set('description', $project['description']);
       $pr->save();
 
@@ -336,7 +336,7 @@ class api extends OController{
    */
   function getProject($req){
     $status = 'ok';
-    $id     = Base::getParam('id', $req['url_params'], false);
+    $id     = OTools::getParam('id', $req['params'], false);
     $project       = null;
     $configuration = null;
     $lists         = null;
@@ -375,7 +375,7 @@ class api extends OController{
    */
   function deleteProject($req){
     $status = 'ok';
-    $id     = Base::getParam('id', $req['url_params'], false);
+    $id     = OTools::getParam('id', $req['params'], false);
 
     if ($id===false){
       $status = 'error';
@@ -399,8 +399,8 @@ class api extends OController{
    */
   function generateProject($req){
     $status = 'ok';
-    $id     = Base::getParam('id',   $req['url_params'], false);
-    $step   = Base::getParam('step', $req['url_params'], false);
+    $id     = OTools::getParam('id',   $req['params'], false);
+    $step   = OTools::getParam('step', $req['params'], false);
     $date   = '';
 
     if ($id===false || $step===false){
@@ -410,7 +410,7 @@ class api extends OController{
     if ($status=='ok'){
       $pr = new Project();
       if ($pr->find(['id'=>$id])){
-        if ($pr->get('id_user')==$req['filter']['id']){
+        if ($pr->get('id_user')==$req['loginFilter']['id']){
           switch($step){
             case 0: { $this->project_service->createBasicStructure($pr); }
             break;
@@ -448,7 +448,7 @@ class api extends OController{
    */
   function downloadProject($req){
     $status = 'ok';
-    $id     = Base::getParam('id', $req, false);
+    $id     = OTools::getParam('id', $req, false);
 
     if ($id===false){
       $status = 'error';
