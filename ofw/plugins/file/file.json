@@ -1,19 +1,25 @@
 {
-  "file_name": "OFile.php",
-  "version": "1.0.1",
-  "description": "Clase para manipular archivos (copiar, mover, borrar...).",
-  "updates": {
-    "1.0.1": {
-      "message": "1.0.1 - Actualización en la lista de archivos y carpetas",
-      "files": [
-        "OFile.php"
-      ]
-    },
-    "1.0.0": {
-      "message": "1.0.0 - Versión inicial del plugin OFile",
-      "files": [
-        "OFile.php"
-      ]
-    }
-  }
+	"file_name": "OFile.php",
+	"version": "1.0.2",
+	"description": "Clase para manipular archivos (copiar, mover, borrar...).",
+	"updates": {
+		"1.0.2": {
+			"message": "1.0.2 - Cambios por OFW 5",
+			"files": [
+				"OFile.php"
+			]
+		},
+		"1.0.1": {
+			"message": "1.0.1 - Actualización en la lista de archivos y carpetas",
+			"files": [
+				"OFile.php"
+			]
+		},
+		"1.0.0": {
+			"message": "1.0.0 - Versión inicial del plugin OFile",
+			"files": [
+				"OFile.php"
+			]
+		}
+	}
 }
