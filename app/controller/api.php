@@ -4,8 +4,8 @@ class api extends OController{
   private $project_service;
 
   function __construct(){
-    $this->user_service = new userService($this);
-    $this->project_service = new projectService($this);
+    $this->user_service = new userService();
+    $this->project_service = new projectService();
   }
 
   /*

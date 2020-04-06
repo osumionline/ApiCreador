@@ -1,12 +1,11 @@
 <?php
 class projectService extends OService{
-  function __construct($controller=null){
-    $this->setController($controller);
+  function __construct(){
+    $this->loadService();
   }
 
   public function createBasicStructure($project){
-    global $core;
-    $route = $core->config->getDir('ofw_tmp').'user_'.$project->get('id_user').'/project_'.$project->get('id');
+    $route = $this->getConfig()->getDir('ofw_tmp').'user_'.$project->get('id_user').'/project_'.$project->get('id');
     if (file_exists($route)){
       OFile::rrmdir($route);
     }
@@ -26,18 +25,17 @@ class projectService extends OService{
 
     foreach ($file_list as $file){
       if (is_array($file)){
-        copy($core->config->getDir('include').'default/'.$file['template'], $route.'/'.$file['to']);
+        copy($this->getConfig()->getDir('include').'default/'.$file['template'], $route.'/'.$file['to']);
       }
       else{
-        copy($core->config->getDir('base').$file, $route.'/'.$file);
+        copy($this->getConfig()->getDir('base').$file, $route.'/'.$file);
       }
     }
   }
 
   public function createConfigFile($project){
-    global $core;
-    $crypt = new OCrypt( $core->config->getExtra('crypt_key') );
-    $route = $core->config->getDir('ofw_tmp').'user_'.$project->get('id_user').'/project_'.$project->get('id').'/app/config/config.json';
+    $crypt = new OCrypt( $this->getConfig()->getExtra('crypt_key') );
+    $route = $this->getConfig()->getDir('ofw_tmp').'user_'.$project->get('id_user').'/project_'.$project->get('id').'/app/config/config.json';
     if (file_exists($route)){
       unlink($route);
     }
@@ -46,27 +44,6 @@ class projectService extends OService{
     $lists         = $configuration->getProjectConfigurationLists();
 
     $conf = "{\n";
-    if ($configuration->get('module_browser') ||
-        $configuration->get('module_email') ||
-        $configuration->get('module_email_smtp') ||
-        $configuration->get('module_ftp') ||
-        $configuration->get('module_image') ||
-        $configuration->get('module_pdf') ||
-        $configuration->get('module_translate') ||
-        $configuration->get('module_crypt') ||
-        $configuration->get('module_file')){
-      $conf .= "  \"base_modules\": {\n";
-      $conf .= "    \"browser\": ".($configuration->get('module_browser') ? 'true' : 'false').",\n";
-      $conf .= "    \"email\": ".($configuration->get('module_email') ? 'true' : 'false').",\n";
-      $conf .= "    \"email_smtp\": ".($configuration->get('module_email_smtp') ? 'true' : 'false').",\n";
-      $conf .= "    \"ftp\": ".($configuration->get('module_ftp') ? 'true' : 'false').",\n";
-      $conf .= "    \"image\": ".($configuration->get('module_image') ? 'true' : 'false').",\n";
-      $conf .= "    \"pdf\": ".($configuration->get('module_pdf') ? 'true' : 'false').",\n";
-      $conf .= "    \"translate\": ".($configuration->get('module_translate') ? 'true' : 'false').",\n";
-      $conf .= "    \"crypt\": ".($configuration->get('module_crypt') ? 'true' : 'false').",\n";
-      $conf .= "    \"file\": ".($configuration->get('module_file') ? 'true' : 'false')."\n";
-      $conf .= "  },\n";
-    }
     if (!is_null($configuration->get('db_host')) ||
         !is_null($configuration->get('db_user')) ||
         !is_null($configuration->get('db_pass')) ||
@@ -156,11 +133,10 @@ class projectService extends OService{
   }
 
   public function createModels($project){
-    global $core;
     $models = $project->getProjectModels();
 
     foreach ($models as $model){
-      $route = $core->config->getDir('ofw_tmp').'user_'.$project->get('id_user').'/project_'.$project->get('id').'/app/model/'.$model->get('name').'.php';
+      $route = $this->getConfig()->getDir('ofw_tmp').'user_'.$project->get('id_user').'/project_'.$project->get('id').'/app/model/'.$model->get('name').'.php';
       if (file_exists($route)){
         unlink($route);
       }
@@ -212,8 +188,7 @@ class projectService extends OService{
   }
 
   public function addIncludes($project){
-    global $core;
-    $route_web = $core->config->getDir('ofw_tmp').'user_'.$project->get('id_user').'/project_'.$project->get('id').'/web/';
+    $route_web = $this->getConfig()->getDir('ofw_tmp').'user_'.$project->get('id_user').'/project_'.$project->get('id').'/web/';
     $route_css = $route_web.'css';
     $css_ok    = false;
     $route_js  = $route_web.'js';
@@ -229,7 +204,7 @@ class projectService extends OService{
             $this->createRouteIncludes($route_css);
             $css_ok = true;
           }
-          $route = $core->config->getDir('include').$version->get('id_include_type').'/'.$version->get('id').'/0/'.$file->get('filename');
+          $route = $this->getConfig()->getDir('include').$version->get('id_include_type').'/'.$version->get('id').'/0/'.$file->get('filename');
           copy ($route, $route_css.'/'.$file->get('filename'));
         }
         // JS
@@ -238,7 +213,7 @@ class projectService extends OService{
             $this->createRouteIncludes($route_js);
             $js_ok = true;
           }
-          $route = $core->config->getDir('include').$version->get('id_include_type').'/'.$version->get('id').'/1/'.$file->get('filename');
+          $route = $this->getConfig()->getDir('include').$version->get('id_include_type').'/'.$version->get('id').'/1/'.$file->get('filename');
           copy ($route, $route_js.'/'.$file->get('filename'));
         }
       }
@@ -246,9 +221,8 @@ class projectService extends OService{
   }
 
   public function packToZip($project){
-    $c         = $this->getController()->getConfig();
-    $route     = $core->config->getDir('ofw_tmp').'user_'.$project->get('id_user').'/project_'.$project->get('id');
-    $route_zip = $core->config->getDir('ofw_tmp').'user_'.$project->get('id_user').'/'.$project->get('slug').'.zip';
+    $route     = $this->getConfig()->getDir('ofw_tmp').'user_'.$project->get('id_user').'/project_'.$project->get('id');
+    $route_zip = $this->getConfig()->getDir('ofw_tmp').'user_'.$project->get('id_user').'/'.$project->get('slug').'.zip';
 
     $zip_file = new OFile();
     $zip_file->zip($route, $route_zip, $project->get('slug'));

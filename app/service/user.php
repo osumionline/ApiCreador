@@ -1,11 +1,11 @@
 <?php
 class userService extends OService{
-  function __construct($controller=null){
-    $this->setController($controller);
+  function __construct(){
+    $this->loadService();
   }
 
   public function getProjects($id_user){
-    $db = $this->getController()->getDB();
+    $db = new ODB();
     $sql = "SELECT * FROM `project` WHERE `id_user` = ? ORDER BY `updated_at` DESC";
     $db->query($sql, [$id_user]);
     $ret = [];
@@ -21,7 +21,7 @@ class userService extends OService{
   }
 
   public function getIncludes(){
-    $db = $this->getController()->getDB();
+    $db = new ODB();
     $sql = "SELECT * FROM `include_type` WHERE `show_include` = 1 ORDER BY `name`";
     $db->query($sql);
     $ret = [];
@@ -37,13 +37,13 @@ class userService extends OService{
   }
 
   public function cleanProjectConfigurationLists($id_configuration){
-    $db = $this->getController()->getDB();
+    $db = new ODB();
     $sql = "DELETE FROM `project_config_list_item` WHERE `id_project_config` = ?";
     $db->query($sql, [$id_configuration]);
   }
 
   public function cleanDeletedRows($id_model, $model_row_ids){
-    $db = $this->getController()->getDB();
+    $db = new ODB();
     $in  = str_repeat('?,', count($model_row_ids) - 1) . '?';
     array_unshift($model_row_ids, $id_model);
     $sql = "DELETE FROM `row` WHERE `id_model` = ? AND `id` NOT IN (".$in.")";
@@ -51,7 +51,7 @@ class userService extends OService{
   }
 
   public function updateProjectIncludes($id_project, $project_includes){
-    $db = $this->getController()->getDB();
+    $db = new ODB();
     $sql = "DELETE FROM `project_include` WHERE `id_project` = ?";
     $db->query($sql, [$id_project]);
     foreach ($project_includes as $inc){
