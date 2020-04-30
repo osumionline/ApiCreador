@@ -1,8 +1,8 @@
 {
-  "status": "{{status}}",
-  "project": {{project}},
-  "configuration": {{configuration}},
-  "lists": {{lists}},
-  "models": {{models}},
-  "includes": {{includes}}
+	"status": "{{status}}",
+	"project": {{project}},
+	"configuration": {{configuration}},
+	"lists": {{lists}},
+	"models": {{models}},
+	"includes": {{includes}}
 }

@@ -1,4 +1,4 @@
 {
-  "status": "{{status}}",
-  "date": "{{date}}"
+	"status": "{{status}}",
+	"date": "{{date}}"
 }

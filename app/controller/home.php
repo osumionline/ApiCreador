@@ -1,23 +1,35 @@
-<?php
+<?php declare(strict_types=1);
 class home extends OController{
-  /*
-   * Página temporal, sitio cerrado
-   */
-  function closed($req){
-    OUrl::goToUrl('https://creador.osumi.es');
-  }
+	/**
+	 * Página temporal, sitio cerrado
+	 *
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 *
+	 * @return void
+	 */
+	function closed(ORequest $req): void {
+		OUrl::goToUrl('https://creador.osumi.es');
+	}
 
-  /*
-   * Home pública
-   */
-  function index($req){
-    OUrl::goToUrl('https://creador.osumi.es');
-  }
+	/**
+	 * Home pública
+	 *
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 *
+	 * @return void
+	 */
+	function index(ORequest $req): void {
+		OUrl::goToUrl('https://creador.osumi.es');
+	}
 
-  /*
-   * Página de error 404
-   */
-  function notFound($req){
-    OUrl::goToUrl('https://creador.osumi.es');
-  }
+	/**
+	 * Página de error 404
+	 *
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 *
+	 * @return void
+	 */
+	function notFound(ORequest $req): void {
+		OUrl::goToUrl('https://creador.osumi.es');
+	}
 }

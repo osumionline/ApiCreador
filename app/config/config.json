@@ -1,15 +1,15 @@
 {
-  "db": {
-  	"host": "localhost",
-  	"user": "creador",
-  	"pass": "6J9z8#dd",
-  	"name": "creador"
-  },
-  "base_url": "https://apicreador.osumi.es/",
-  "extra": {
-    "crypt_key": "IZc2VDu3432r4RnsH4Mg0YkIoHtWe+G11Ct9N94K06Q="
-  },
-  "dir": {
-    "include": "/var/www/vhosts/osumi.es/apicreador.osumi.es/include/"
-  }
+	"db": {
+		"host": "localhost",
+		"user": "creador",
+		"pass": "6J9z8#dd",
+		"name": "creador"
+	},
+	"base_url": "https://apicreador.osumi.es/",
+	"extra": {
+		"crypt_key": "IZc2VDu3432r4RnsH4Mg0YkIoHtWe+G11Ct9N94K06Q="
+	},
+	"dir": {
+		"include": "/var/www/vhosts/osumi.es/apicreador.osumi.es/include/"
+	}
 }

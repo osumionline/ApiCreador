@@ -1,100 +1,100 @@
 {
-  "urls": [
-    {
-      "id": "pages",
-      "module": "home",
-      "urls": [
-        {
-          "id": "closed",
-          "url": "/closed",
-          "module": "home",
-          "action": "closed",
-          "comment": "Página temporal, sitio cerrado",
-          "layout": "blank"
-        },
-        {
-          "id": "index",
-          "url": "/",
-          "module": "home",
-          "action": "index",
-          "comment": "Home pública"
-        },
-        {
-          "id": "notFound",
-          "url": "/not-found",
-          "module": "home",
-          "action": "notFound",
-          "comment": "Página de error 404"
-        }
-      ]
-    },
-    {
-      "id": "api",
-      "prefix": "/api",
-      "module": "api",
-      "type": "json",
-      "urls": [
-        {
-          "id": "login",
-          "url": "/login",
-          "action": "login",
-          "comment": "Función para iniciar sesión en la aplicación"
-        },
-        {
-          "id": "register",
-          "url": "/register",
-          "action": "register",
-          "comment": "Función para registrarse en la aplicación"
-        },
-        {
-          "id": "getProjects",
-          "url": "/get-projects",
-          "action": "getProjects",
-          "filter": "loginFilter",
-          "comment": "Función para obtener la lista de proyectos"
-        },
-        {
-          "id": "getIncludes",
-          "url": "/get-includes",
-          "action": "getIncludes",
-          "filter": "loginFilter",
-          "comment": "Función para obtener la lista de includes para añadir a un proyecto"
-        },
-        {
-          "id": "saveProject",
-          "url": "/save-project",
-          "action": "saveProject",
-          "filter": "loginFilter",
-          "comment": "Función para guardar un proyecto"
-        },
-        {
-          "id": "getProject",
-          "url": "/get-project",
-          "action": "getProject",
-          "filter": "loginFilter",
-          "comment": "Función para obtener los detalles de un proyecto"
-        },
-        {
-          "id": "deleteProject",
-          "url": "/delete-project",
-          "action": "deleteProject",
-          "filter": "loginFilter",
-          "comment": "Función para borrar un proyecto"
-        },
-        {
-          "id": "generateProject",
-          "url": "/generate-project",
-          "action": "generateProject",
-          "filter": "loginFilter",
-          "comment": "Función para generar el descargable de un proyecto"
-        },
-        {
-          "id": "downloadProject",
-          "url": "/download-project/:id",
-          "action": "downloadProject",
-          "comment": "Función para descargar el archivo ZIP de un proyecto"
-        }
-      ]
-    }
-  ]
+	"urls": [
+		{
+			"id": "pages",
+			"module": "home",
+			"urls": [
+				{
+					"id": "closed",
+					"url": "/closed",
+					"module": "home",
+					"action": "closed",
+					"comment": "Página temporal, sitio cerrado",
+					"layout": "blank"
+				},
+				{
+					"id": "index",
+					"url": "/",
+					"module": "home",
+					"action": "index",
+					"comment": "Home pública"
+				},
+				{
+					"id": "notFound",
+					"url": "/not-found",
+					"module": "home",
+					"action": "notFound",
+					"comment": "Página de error 404"
+				}
+			]
+		},
+		{
+			"id": "api",
+			"prefix": "/api",
+			"module": "api",
+			"type": "json",
+			"urls": [
+				{
+					"id": "login",
+					"url": "/login",
+					"action": "login",
+					"comment": "Función para iniciar sesión en la aplicación"
+				},
+				{
+					"id": "register",
+					"url": "/register",
+					"action": "register",
+					"comment": "Función para registrarse en la aplicación"
+				},
+				{
+					"id": "getProjects",
+					"url": "/get-projects",
+					"action": "getProjects",
+					"filter": "loginFilter",
+					"comment": "Función para obtener la lista de proyectos"
+				},
+				{
+					"id": "getIncludes",
+					"url": "/get-includes",
+					"action": "getIncludes",
+					"filter": "loginFilter",
+					"comment": "Función para obtener la lista de includes para añadir a un proyecto"
+				},
+				{
+					"id": "saveProject",
+					"url": "/save-project",
+					"action": "saveProject",
+					"filter": "loginFilter",
+					"comment": "Función para guardar un proyecto"
+				},
+				{
+					"id": "getProject",
+					"url": "/get-project",
+					"action": "getProject",
+					"filter": "loginFilter",
+					"comment": "Función para obtener los detalles de un proyecto"
+				},
+				{
+					"id": "deleteProject",
+					"url": "/delete-project",
+					"action": "deleteProject",
+					"filter": "loginFilter",
+					"comment": "Función para borrar un proyecto"
+				},
+				{
+					"id": "generateProject",
+					"url": "/generate-project",
+					"action": "generateProject",
+					"filter": "loginFilter",
+					"comment": "Función para generar el descargable de un proyecto"
+				},
+				{
+					"id": "downloadProject",
+					"url": "/download-project/:id",
+					"action": "downloadProject",
+					"comment": "Función para descargar el archivo ZIP de un proyecto"
+				}
+			]
+		}
+	]
 }
