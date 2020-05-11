@@ -1,8 +1,14 @@
 {
 	"file_name": "OFile.php",
-	"version": "1.0.2",
+	"version": "1.1.0",
 	"description": "Clase para manipular archivos (copiar, mover, borrar...).",
 	"updates": {
+		"1.1.0": {
+			"message": "1.1.0 - Tipado fuerte y actualización de listados y archivos del OFW",
+			"files": [
+				"OFile.php"
+			]
+		},
 		"1.0.2": {
 			"message": "1.0.2 - Cambios por OFW 5",
 			"files": [

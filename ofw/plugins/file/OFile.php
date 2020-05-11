@@ -1,18 +1,50 @@
-<?php
+<?php declare(strict_types=1);
 class OFile {
-	public static function copy($source, $destination) {
+	/**
+	 * Copy a file from a source to a destination
+	 *
+	 * @param string $source Source path of a file
+	 *
+	 * @param string $destination Destination path of a file
+	 *
+	 * @param bool File gets copied or not
+	 */
+	public static function copy(string $source, string $destination): bool {
 		return copy($source, $destination);
 	}
 
-	public static function rename($old_name, $new_name) {
+	/**
+	 * Rename or move a file from a source to a destination
+	 *
+	 * @param string $source Source path of a file
+	 *
+	 * @param string $destination Destination path of a file or new name
+	 *
+	 * @return bool File gets moved/renamed or not
+	 */
+	public static function rename(string $old_name, string $new_name): bool {
 		return rename($old_name, $new_name);
 	}
 
-	public static function delete($name) {
+	/**
+	 * Delete a file
+	 *
+	 * @param string $source Path of a file
+	 *
+	 * @return bool File gets deleted or not
+	 */
+	public static function delete(string $name): bool {
 		return unlink($name);
 	}
 
-	public static function rrmdir($dir) {
+	/**
+	 * Delete a folder and all of its content recursively
+	 *
+	 * @param string $dir Source path of a directory
+	 *
+	 * @return bool Folder gets deleted or not
+	 */
+	public static function rrmdir(string $dir): bool {
 		$files = array_diff(scandir($dir), array('.','..'));
 		foreach ($files as $file) {
 			if (is_dir($dir.'/'.$file)) {
@@ -25,7 +57,12 @@ class OFile {
 		return rmdir($dir);
 	}
 
-	public static function getOFWFolders() {
+	/**
+	 * Returns list of folders in the Osumi Framework
+	 *
+	 * @return array List of folders
+	 */
+	public static function getOFWFolders(): array {
 		return [
 			'app',
 			'app/cache',
@@ -43,8 +80,8 @@ class OFile {
 			'ofw/core',
 			'ofw/export',
 			'ofw/lib',
-			'ofw/locale',
 			'ofw/lib/routing',
+			'ofw/locale',
 			'ofw/plugins',
 			'ofw/task',
 			'ofw/tmp',
@@ -52,8 +89,14 @@ class OFile {
 		];
 	}
 
-	public static function getOFWFiles() {
+	/**
+	 * Returns list of files in the Osumi Framework
+	 *
+	 * @return array List of files
+	 */
+	public static function getOFWFiles(): array {
 		return [
+			'ofw/core/error.php',
 			'ofw/core/OCache.php',
 			'ofw/core/OColors.php',
 			'ofw/core/OConfig.php',
@@ -65,13 +108,15 @@ class OFile {
 			'ofw/core/OLog.php',
 			'ofw/core/OModel.php',
 			'ofw/core/OPlugin.php',
+			'ofw/core/ORequest.php',
 			'ofw/core/OService.php',
 			'ofw/core/OSession.php',
 			'ofw/core/OTemplate.php',
 			'ofw/core/OTools.php',
+			'ofw/core/OUpdate.php',
 			'ofw/core/OUrl.php',
-			'ofw/core/error.php',
 			'ofw/core/version.json',
+			'ofw/export/.gitignore',
 			'ofw/lib/routing/sfObjectRoute.class.php',
 			'ofw/lib/routing/sfObjectRouteCollection.class.php',
 			'ofw/lib/routing/sfPatternRouting.class.php',
@@ -83,7 +128,7 @@ class OFile {
 			'ofw/plugins/plugins.txt',
 			'ofw/task/backupAll.php',
 			'ofw/task/backupDB.php',
-			'ofw/task/composer.php',
+			'ofw/task/extractor.php',
 			'ofw/task/generateModel.php',
 			'ofw/task/plugins.php',
 			'ofw/task/update.php',
@@ -97,12 +142,30 @@ class OFile {
 
 	private $zip_file = null;
 
-	private function addDir($location, $name) {
+	/**
+	 * Adds dir to the zip file to be created
+	 *
+	 * @param string $location Base path to be added
+	 *
+	 * @param string $name Name of the file to be created
+	 *
+	 * @return void
+	 */
+	private function addDir(string $location, string $name): void {
 		$this->zip_file->addEmptyDir($name);
 		$this->addDirDo($location, $name);
 	}
 
-	private function addDirDo($location, $name) {
+	/**
+	 * Adds folder and all of its files to the zip file to be created
+	 *
+	 * @param string $location Base path to be added
+	 *
+	 * @param string $name Name of the file to be created
+	 *
+	 * @return void
+	 */
+	private function addDirDo(string $location, string $name): void {
 		$name .= '/';
 		$location .= '/';
 		$dir = opendir($location);
@@ -117,6 +180,17 @@ class OFile {
 		}
 	}
 
+	/**
+	 * Create a new zip file
+	 *
+	 * @param string $route Path to be added
+	 *
+	 * @param string $zip_route Path of the new zip file
+	 *
+	 * @param string $basename Base path of the folder to be added
+	 *
+	 * @return void
+	 */
 	public function zip($route, $zip_route, $basename=null) {
 		if (file_exists($zip_route)) {
 			unlink($zip_route);
