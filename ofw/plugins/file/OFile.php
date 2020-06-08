@@ -124,6 +124,8 @@ class OFile {
 			'ofw/lib/routing/sfRoute.class.php',
 			'ofw/lib/routing/sfRouteCollection.class.php',
 			'ofw/lib/routing/sfRouting.class.php',
+			'ofw/locale/en.php',
+			'ofw/locale/es.php',
 			'ofw/plugins/.gitignore',
 			'ofw/plugins/plugins.txt',
 			'ofw/task/backupAll.php',
