@@ -94,15 +94,6 @@ class projectService extends OService {
 		if (!is_null($configuration->get('lang'))) {
 			$conf .= "  \"lang\": \"".$configuration->get('lang')."\",\n";
 		}
-		if (!is_null($configuration->get('smtp_host')) || !is_null($configuration->get('smtp_port')) || !is_null($configuration->get('smtp_secure')) || !is_null($configuration->get('smtp_user')) || !is_null($configuration->get('smtp_pass'))) {
-			$conf .= "  \"smtp\": {\n";
-			$conf .= "    \"host\": ".(is_null($configuration->get('smtp_host')) ? "null" : "\"".$configuration->get('smtp_host')."\"").",\n";
-			$conf .= "    \"port\": ".(is_null($configuration->get('smtp_port')) ? "null" : $configuration->get('smtp_port')).",\n";
-			$conf .= "    \"secure\": ".(is_null($configuration->get('smtp_secure')) ? "null" : "\"".$configuration->get('smtp_secure')."\"").",\n";
-			$conf .= "    \"user\": ".(is_null($configuration->get('smtp_user')) ? "null" : "\"".$configuration->get('smtp_user')."\"").",\n";
-			$conf .= "    \"pass\": ".(is_null($configuration->get('smtp_pass')) ? "null" : "\"".$crypt->decrypt($configuration->get('smtp_pass'))."\"").",\n";
-			$conf .= "  },\n";
-		}
 		if (!is_null($configuration->get('error_403')) || !is_null($configuration->get('error_404')) || !is_null($configuration->get('error_500'))) {
 			$conf .= "  \"error_pages\": {\n";
 			$conf .= "    \"403\": ".(is_null($configuration->get('error_403')) ? "null" : "\"".$configuration->get('error_403')."\"").",\n";
@@ -166,7 +157,7 @@ class projectService extends OService {
 			}
 
 			$mod = "<"."?php declare(strict_types=1);\n";
-			$mod .= "class ".$model->get('name')." extends OBase {\n";
+			$mod .= "class ".$model->get('name')." extends OModel {\n";
 			$mod .= "	/"."**\n";
 			$mod .= "	 * Configures current model object based on data-base table structure\n";
 			$mod .= "	 */";
@@ -275,5 +266,15 @@ class projectService extends OService {
 		$zip_file = new OFile();
 		$zip_file->zip($route, $route_zip, $project->get('slug'));
 		OFile::rrmdir($route);
+	}
+
+	/**
+	 * Obtiene la lista de plugins disponibles
+	 *
+	 * @return string Archivo JSON con la lista de plugins disponibles
+	 */
+	public function getPluginList(): string {
+		$url = $this->getConfig()->getExtra('plugins_url');
+		return file_get_contents($url);
 	}
 }

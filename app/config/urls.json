@@ -93,6 +93,12 @@
 					"url": "/download-project/:id",
 					"action": "downloadProject",
 					"comment": "Función para descargar el archivo ZIP de un proyecto"
+				},
+				{
+					"id": "getPluginList",
+					"url": "/get-plugin-list",
+					"action": "getPluginList",
+					"comment": "Función para obtener la lista de plugins"
 				}
 			]
 		}

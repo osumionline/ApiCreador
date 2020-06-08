@@ -209,31 +209,6 @@ class api extends OController {
 			}
 			$prc->set('cookies_prefix',    ($projectConfiguration['cookiesPrefix']=='') ? null : $projectConfiguration['cookiesPrefix']);
 			$prc->set('cookies_url',       ($projectConfiguration['cookiesUrl']=='')    ? null : $projectConfiguration['cookiesUrl']);
-			$prc->set('module_browser',    $projectConfiguration['modBrowser']);
-			$prc->set('module_email',      $projectConfiguration['modEmail']);
-			$prc->set('module_email_smtp', $projectConfiguration['modEmailSmtp']);
-			$prc->set('module_ftp',        $projectConfiguration['modFtp']);
-			$prc->set('module_image',      $projectConfiguration['modImage']);
-			$prc->set('module_pdf',        $projectConfiguration['modPdf']);
-			$prc->set('module_translate',  $projectConfiguration['modTranslate']);
-			$prc->set('module_crypt',      $projectConfiguration['modCrypt']);
-			$prc->set('module_file',       $projectConfiguration['modFile']);
-			if ($projectConfiguration['modEmailSmtp']) {
-				$prc->set('smtp_host',   $projectConfiguration['smtpHost']);
-				$prc->set('smtp_user',   $projectConfiguration['smtpUser']);
-				$prc->set('smtp_port',   $projectConfiguration['smtpPort']);
-				$prc->set('smtp_secure', $projectConfiguration['smtpSecure']);
-				if (is_null($project['id']) || (!is_null($project['id']) && $projectConfiguration['smtpPass']!='')) {
-					$prc->set('smtp_pass',   $crypt->encrypt($projectConfiguration['smtpPass']));
-				}
-			}
-			else {
-				$prc->set('smtp_host',   null);
-				$prc->set('smtp_user',   null);
-				$prc->set('smtp_pass',   null);
-				$prc->set('smtp_port',   null);
-				$prc->set('smtp_secure', null);
-			}
 			$prc->set('base_url',      ($projectConfiguration['baseUrl']=='')      ? null : $projectConfiguration['baseUrl']);
 			$prc->set('admin_email',   ($projectConfiguration['adminEmail']=='')   ? null : $projectConfiguration['adminEmail']);
 			$prc->set('default_title', ($projectConfiguration['defaultTitle']=='') ? null : $projectConfiguration['defaultTitle']);
@@ -504,16 +479,22 @@ class api extends OController {
 	function downloadProject(ORequest $req): void {
 		$status = 'ok';
 		$id     = $req->getParamInt('id');
-		$filter = $req->getFilter('loginFilter');
+		$tk     = $req->getParamString('tk');
 
-		if (is_null($filter) || !array_key_exists('id', $filter) || is_null($id)) {
+		if (is_null($id) || is_null($tk)) {
 			$status = 'error';
 		}
 
 		if ($status=='ok'){
 			$project = new Project();
 			if ($project->find(['id'=>$id])){
-				if ($project->get('id_user')==$filter['id']) {
+				$token = new OToken($this->getConfig()->getExtra('secret'));
+				$token_id = null;
+				if ($token->checkToken(base64_decode($tk))) {
+					$token_id = intval($token->getParam('id'));
+				}
+
+				if ($project->get('id_user')==$token_id) {
 					$filename = $project->get('slug').'.zip';
 					$route_zip = $this->getConfig()->getDir('ofw_tmp').'user_'.$project->get('id_user').'/'.$filename;
 
@@ -530,5 +511,17 @@ class api extends OController {
 
 		echo 'ERROR';
 		exit;
+	}
+
+	/**
+	 * Función para obtener la lista de plugins
+	 *
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 *
+	 * @return void
+	 */
+	function getPluginList(ORequest $req): void {
+		$list = $this->project_service->getPluginList();
+		$this->getTemplate()->addPartial('list', 'api/plugin_list', ['list' => $list, 'extra' => 'nourlencode']);
 	}
 }

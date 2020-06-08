@@ -64,60 +64,6 @@ class ProjectConfig extends OModel {
 				'nullable' => true,
 				'comment'  => 'URL para las cookies'
 			],
-			'module_browser' => [
-				'type'     => OCore::BOOL,
-				'nullable' => false,
-				'default'  => false,
-				'comment'  => 'Indica si habilitar el módulo browser 1 o no 0'
-			],
-			'module_email' => [
-				'type'     => OCore::BOOL,
-				'nullable' => false,
-				'default'  => false,
-				'comment'  => 'Indica si habilitar el módulo email 1 o no 0'
-			],
-			'module_email_smtp' => [
-				'type'     => OCore::BOOL,
-				'nullable' => false,
-				'default'  => false,
-				'comment'  => 'Indica si habilitar el módulo browser 1 o no 0'
-			],
-			'module_ftp' => [
-				'type'     => OCore::BOOL,
-				'nullable' => false,
-				'default'  => false,
-				'comment'  => 'Indica si habilitar el módulo ftp 1 o no 0'
-			],
-			'module_image' => [
-				'type'     => OCore::BOOL,
-				'nullable' => false,
-				'default'  => false,
-				'comment'  => 'Indica si habilitar el módulo image 1 o no 0'
-			],
-			'module_pdf' => [
-				'type'     => OCore::BOOL,
-				'nullable' => false,
-				'default'  => false,
-				'comment'  => 'Indica si habilitar el módulo pdf 1 o no 0'
-			],
-			'module_translate' => [
-				'type'     => OCore::BOOL,
-				'nullable' => false,
-				'default'  => false,
-				'comment'  => 'Indica si habilitar el módulo translate 1 o no 0'
-			],
-			'module_crypt' => [
-				'type'     => OCore::BOOL,
-				'nullable' => false,
-				'default'  => false,
-				'comment'  => 'Indica si habilitar el módulo crypt 1 o no 0'
-			],
-			'module_file' => [
-				'type'     => OCore::BOOL,
-				'nullable' => false,
-				'default'  => false,
-				'comment'  => 'Indica si habilitar el módulo file 1 o no 0'
-			],
 			'base_url' => [
 				'type'     => OCore::TEXT,
 				'size'     => 250,
@@ -141,36 +87,6 @@ class ProjectConfig extends OModel {
 				'size'     => 10,
 				'nullable' => true,
 				'comment'  => 'Código de idioma por defecto'
-			],
-			'smtp_host' => [
-				'type'     => OCore::TEXT,
-				'size'     => 100,
-				'nullable' => true,
-				'comment'  => 'Host para el envío de emails por SMTP'
-			],
-			'smtp_port' => [
-				'type'     => OCore::TEXT,
-				'size'     => 5,
-				'nullable' => true,
-				'comment'  => 'Puerto para el envío de emails por SMTP'
-			],
-			'smtp_secure' => [
-				'type'     => OCore::TEXT,
-				'size'     => 10,
-				'nullable' => true,
-				'comment'  => 'Tipo de cifrado para el envío de emails por SMTP'
-			],
-			'smtp_user' => [
-				'type'     => OCore::TEXT,
-				'size'     => 50,
-				'nullable' => true,
-				'comment'  => 'Nombre de usuario para el envío de emails por SMTP'
-			],
-			'smtp_pass' => [
-				'type'     => OCore::TEXT,
-				'size'     => 100,
-				'nullable' => true,
-				'comment'  => 'Contraseña cifrada para el envío de emails por SMTP'
 			],
 			'error_403' => [
 				'type'     => OCore::TEXT,
