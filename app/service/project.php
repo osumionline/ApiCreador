@@ -168,7 +168,7 @@ class projectService extends OService {
 			$types = [1 => 'PK', 10 => 'PK_STR', 2 => 'CREATED', 3 => 'UPDATED', 4 => 'NUM', 5 => 'TEXT', 6 => 'DATE', 7 => 'BOOL', 8 => 'LONGTEXT', 9 => 'FLOAT'];
 			foreach ($model->getRows() as $row) {
 				$str = "			'".$row->get('name')."' => [\n";
-				$str .= "				'type'    => Base::".$types[$row->get('type')].",\n";
+				$str .= "				'type'    => OCore::".$types[$row->get('type')].",\n";
 				if ($row->get('type')==1 && !$row->get('auto_increment')) {
 					$str .= "				'incr' => false,\n";
 				}
