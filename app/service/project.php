@@ -72,7 +72,7 @@ class projectService extends OService {
 			$conf .= "    \"user\": ".(is_null($configuration->get('db_user')) ? "null" : "\"".$configuration->get('db_user')."\"").",\n";
 			$conf .= "    \"pass\": ".(is_null($configuration->get('db_pass')) ? "null" : "\"".$crypt->decrypt($configuration->get('db_pass'))."\"").",\n";
 			$conf .= "    \"name\": ".(is_null($configuration->get('db_name')) ? "null" : "\"".$configuration->get('db_name')."\"").",\n";
-			$conf .= "    \"charset\": ".(is_null($configuration->get('db_charset')) ? "null" : "\"".$configuration->get('db_charset')."\"")."\n";
+			$conf .= "    \"charset\": ".(is_null($configuration->get('db_charset')) ? "null" : "\"".$configuration->get('db_charset')."\"").",\n";
 			$conf .= "    \"collate\": ".(is_null($configuration->get('db_collate')) ? "null" : "\"".$configuration->get('db_collate')."\"")."\n";
 			$conf .= "  },\n";
 		}
