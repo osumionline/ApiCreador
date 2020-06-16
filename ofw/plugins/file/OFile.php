@@ -84,6 +84,16 @@ class OFile {
 			'ofw/locale',
 			'ofw/plugins',
 			'ofw/task',
+			'ofw/template',
+			'ofw/template/backupAll',
+			'ofw/template/backupDB',
+			'ofw/template/extractor',
+			'ofw/template/generateModel',
+			'ofw/template/plugins',
+			'ofw/template/update',
+			'ofw/template/updateCheck',
+			'ofw/template/updateUrls',
+			'ofw/template/version',
 			'ofw/tmp',
 			'web'
 		];
@@ -96,7 +106,6 @@ class OFile {
 	 */
 	public static function getOFWFiles(): array {
 		return [
-			'ofw/core/error.php',
 			'ofw/core/OCache.php',
 			'ofw/core/OColors.php',
 			'ofw/core/OConfig.php',
@@ -111,6 +120,7 @@ class OFile {
 			'ofw/core/ORequest.php',
 			'ofw/core/OService.php',
 			'ofw/core/OSession.php',
+			'ofw/core/OTask.php',
 			'ofw/core/OTemplate.php',
 			'ofw/core/OTools.php',
 			'ofw/core/OUpdate.php',
@@ -137,6 +147,22 @@ class OFile {
 			'ofw/task/updateCheck.php',
 			'ofw/task/updateUrls.php',
 			'ofw/task/version.php',
+			'ofw/template/error.php',
+			'ofw/template/backupAll/backupAll.php',
+			'ofw/template/backupDB/backupDB.php',
+			'ofw/template/extractor/extractor.php',
+			'ofw/template/generateModel/generateModel.php',
+			'ofw/template/plugins/availablePlugins.php',
+			'ofw/template/plugins/installedPlugins.php',
+			'ofw/template/plugins/installPlugin.php',
+			'ofw/template/plugins/plugins.php',
+			'ofw/template/plugins/removePlugin.php',
+			'ofw/template/plugins/updated.php',
+			'ofw/template/plugins/updateCheck.php',
+			'ofw/template/update/update.php',
+			'ofw/template/updateCheck/updateCheck.php',
+			'ofw/template/updateUrls/updateUrls.php',
+			'ofw/template/version/version.php',
 			'web/index.php',
 			'ofw.php'
 		];
