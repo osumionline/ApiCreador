@@ -7,7 +7,7 @@ class home extends OController{
 	 *
 	 * @return void
 	 */
-	function closed(ORequest $req): void {
+	public function closed(ORequest $req): void {
 		OUrl::goToUrl('https://creador.osumi.es');
 	}
 
@@ -18,7 +18,7 @@ class home extends OController{
 	 *
 	 * @return void
 	 */
-	function index(ORequest $req): void {
+	public function index(ORequest $req): void {
 		OUrl::goToUrl('https://creador.osumi.es');
 	}
 
@@ -29,7 +29,7 @@ class home extends OController{
 	 *
 	 * @return void
 	 */
-	function notFound(ORequest $req): void {
+	public function notFound(ORequest $req): void {
 		OUrl::goToUrl('https://creador.osumi.es');
 	}
 }

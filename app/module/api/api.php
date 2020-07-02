@@ -15,7 +15,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function login(ORequest $req): void {
+	public function login(ORequest $req): void {
 		$status = 'ok';
 		$name   = $req->getParamString('name');
 		$pass   = $req->getParamString('pass');
@@ -61,7 +61,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function register(ORequest $req): void {
+	public function register(ORequest $req): void {
 		$status = 'ok';
 		$name   = $req->getParamString('name');
 		$pass   = $req->getParamString('pass');
@@ -105,7 +105,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function getProjects(ORequest $req): void {
+	public function getProjects(ORequest $req): void {
 		$status = 'ok';
 		$filter = $req->getFilter('loginFilter');
 		$list   = [];
@@ -129,7 +129,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function getIncludes(ORequest $req): void {
+	public function getIncludes(ORequest $req): void {
 		$status = 'ok';
 		$filter = $req->getFilter('loginFilter');
 		$list   = [];
@@ -153,7 +153,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function saveProject(ORequest $req): void {
+	public function saveProject(ORequest $req): void {
 		$status = 'ok';
 		$filter = $req->getFilter('loginFilter');
 
@@ -335,7 +335,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function getProject(ORequest $req): void {
+	public function getProject(ORequest $req): void {
 		$status = 'ok';
 		$id     = $req->getParamInt('id');
 		$filter = $req->getFilter('loginFilter');
@@ -387,7 +387,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function deleteProject(ORequest $req): void {
+	public function deleteProject(ORequest $req): void {
 		$status = 'ok';
 		$id     = $req->getParamInt('id');
 		$filter = $req->getFilter('loginFilter');
@@ -421,7 +421,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function generateProject(ORequest $req): void {
+	public function generateProject(ORequest $req): void {
 		$status = 'ok';
 		$id     = $req->getParamInt('id');
 		$step   = $req->getParamInt('step');
@@ -476,7 +476,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function downloadProject(ORequest $req): void {
+	public function downloadProject(ORequest $req): void {
 		$status = 'ok';
 		$id     = $req->getParamInt('id');
 		$tk     = $req->getParamString('tk');
@@ -520,7 +520,7 @@ class api extends OModule {
 	 *
 	 * @return void
 	 */
-	function getPluginList(ORequest $req): void {
+	public function getPluginList(ORequest $req): void {
 		$list = $this->project_service->getPluginList();
 		$this->getTemplate()->addPartial('list', 'api/plugin_list', ['list' => $list, 'extra' => 'nourlencode']);
 	}
