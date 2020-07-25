@@ -1,4 +1,8 @@
 <?php declare(strict_types=1);
+/**
+ * @prefix /api
+ * @type json
+*/
 class api extends OModule {
 	private ?userService $user_service = null;
 	private ?projectService $project_service = null;
@@ -11,8 +15,8 @@ class api extends OModule {
 	/**
 	 * Función para iniciar sesión en la aplicación
 	 *
+	 * @url /login
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function login(ORequest $req): void {
@@ -57,8 +61,8 @@ class api extends OModule {
 	/**
 	 * Función para registrarse en la aplicación
 	 *
+	 * @url /register
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function register(ORequest $req): void {
@@ -101,8 +105,9 @@ class api extends OModule {
 	/**
 	 * Función para obtener la lista de proyectos
 	 *
+	 * @url /get-projects
+	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function getProjects(ORequest $req): void {
@@ -125,8 +130,9 @@ class api extends OModule {
 	/**
 	 * Función para obtener la lista de includes para añadir a un proyecto
 	 *
+	 * @url /get-includes
+	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function getIncludes(ORequest $req): void {
@@ -149,8 +155,9 @@ class api extends OModule {
 	/**
 	 * Función para guardar un proyecto
 	 *
+	 * @url /save-project
+	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function saveProject(ORequest $req): void {
@@ -331,8 +338,9 @@ class api extends OModule {
 	/**
 	 * Función para obtener los detalles de un proyecto
 	 *
+	 * @url /get-project
+	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function getProject(ORequest $req): void {
@@ -383,8 +391,9 @@ class api extends OModule {
 	/**
 	 * Función para borrar un proyecto
 	 *
+	 * @url /delete-project
+	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function deleteProject(ORequest $req): void {
@@ -417,8 +426,9 @@ class api extends OModule {
 	/**
 	 * Función para generar el descargable de un proyecto
 	 *
+	 * @url /generate-project
+	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function generateProject(ORequest $req): void {
@@ -428,7 +438,6 @@ class api extends OModule {
 		$filter = $req->getFilter('loginFilter');
 
 		$date   = '';
-
 		if (is_null($filter) || !array_key_exists('id', $filter) || $id===false || $step===false){
 			$status = 'error';
 		}
@@ -469,11 +478,11 @@ class api extends OModule {
 		$this->getTemplate()->add('date',   $date);
 	}
 
-	/*
+	/**
 	 * Función para descargar el archivo ZIP de un proyecto
 	 *
+	 * @url /download-project/:id
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function downloadProject(ORequest $req): void {
@@ -516,8 +525,8 @@ class api extends OModule {
 	/**
 	 * Función para obtener la lista de plugins
 	 *
+	 * @url /get-plugin-list
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
-	 *
 	 * @return void
 	 */
 	public function getPluginList(ORequest $req): void {
