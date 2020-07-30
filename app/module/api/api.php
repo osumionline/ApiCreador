@@ -124,7 +124,7 @@ class api extends OModule {
 		}
 
 		$this->getTemplate()->add('status', $status);
-		$this->getTemplate()->addPartial('list', 'api/project_list', ['list' => $list, 'extra'=>'nourlencode']);
+		$this->getTemplate()->addComponent('list', 'api/project_list', ['list' => $list, 'extra'=>'nourlencode']);
 	}
 
 	/**
@@ -149,7 +149,7 @@ class api extends OModule {
 		}
 
 		$this->getTemplate()->add('status', $status);
-		$this->getTemplate()->addPartial('list', 'api/include_list', ['list' => $list, 'extra'=>'nourlencode']);
+		$this->getTemplate()->addComponent('list', 'api/include_list', ['list' => $list, 'extra'=>'nourlencode']);
 	}
 
 	/**
@@ -381,11 +381,11 @@ class api extends OModule {
 		}
 
 		$this->getTemplate()->add('status', $status);
-		$this->getTemplate()->addPartial('project',       'project/project',       ['project'       => $project,       'extra' => 'nourlencode']);
-		$this->getTemplate()->addPartial('configuration', 'project/configuration', ['configuration' => $configuration, 'extra' => 'nourlencode']);
-		$this->getTemplate()->addPartial('lists',         'project/lists',         ['lists'         => $lists,         'extra' => 'nourlencode']);
-		$this->getTemplate()->addPartial('models',        'project/models',        ['models'        => $models,        'extra' => 'nourlencode']);
-		$this->getTemplate()->addPartial('includes',      'project/includes',      ['includes'      => $includes,      'extra' => 'nourlencode']);
+		$this->getTemplate()->addComponent('project',       'project/project',       ['project'       => $project,       'extra' => 'nourlencode']);
+		$this->getTemplate()->addComponent('configuration', 'project/configuration', ['configuration' => $configuration, 'extra' => 'nourlencode']);
+		$this->getTemplate()->addComponent('lists',         'project/lists',         ['lists'         => $lists,         'extra' => 'nourlencode']);
+		$this->getTemplate()->addComponent('models',        'project/models',        ['models'        => $models,        'extra' => 'nourlencode']);
+		$this->getTemplate()->addComponent('includes',      'project/includes',      ['includes'      => $includes,      'extra' => 'nourlencode']);
 	}
 
 	/**
@@ -531,6 +531,6 @@ class api extends OModule {
 	 */
 	public function getPluginList(ORequest $req): void {
 		$list = $this->project_service->getPluginList();
-		$this->getTemplate()->addPartial('list', 'api/plugin_list', ['list' => $list, 'extra' => 'nourlencode']);
+		$this->getTemplate()->addComponent('list', 'api/plugin_list', ['list' => $list, 'extra' => 'nourlencode']);
 	}
 }
