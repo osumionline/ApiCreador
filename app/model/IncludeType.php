@@ -1,4 +1,9 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Model;
+
+use OsumiFramework\OFW\DB\OModel;
+
 class IncludeType extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
@@ -7,27 +12,27 @@ class IncludeType extends OModel {
 		$table_name  = 'include_type';
 		$model = [
 			'id' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'comment' => 'Id único para tipo de include'
 			],
 			'name' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 50,
 				'nullable' => false,
 				'comment'  => 'Nombre del tipo de include'
 			],
 			'show_include' => [
-				'type'     => OCore::BOOL,
+				'type'     => OModel::BOOL,
 				'nullable' => false,
 				'default'  => true,
 				'comment'  => 'Indica si debe mostrarse en la lista de includes disponibles'
 			],
 			'created_at' => [
-				'type'    => OCore::CREATED,
+				'type'    => OModel::CREATED,
 				'comment' => 'Fecha de creación del registro'
 			],
 			'updated_at' => [
-				'type'    => OCore::UPDATED,
+				'type'    => OModel::UPDATED,
 				'comment' => 'Fecha de última modificación del registro'
 			]
 		];

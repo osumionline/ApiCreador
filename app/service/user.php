@@ -1,4 +1,13 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Service;
+
+use OsumiFramework\OFW\Core\OService;
+use OsumiFramework\OFW\DB\ODB;
+use OsumiFramework\App\Model\IncludeType;
+use OsumiFramework\App\Model\ProjectInclude;
+use OsumiFramework\App\Model\Project;
+
 class userService extends OService {
 	/**
 	 * Load service tools

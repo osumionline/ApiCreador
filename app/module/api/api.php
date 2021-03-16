@@ -1,8 +1,25 @@
 <?php declare(strict_types=1);
-/**
- * @prefix /api
- * @type json
-*/
+
+namespace OsumiFramework\App\Module;
+
+use OsumiFramework\OFW\Core\OModule;
+use OsumiFramework\OFW\Web\ORequest;
+use OsumiFramework\OFW\Routing\ORoute;
+use OsumiFramework\App\Model\Model;
+use OsumiFramework\App\Model\ProjectConfig;
+use OsumiFramework\App\Model\Row;
+use OsumiFramework\App\Model\ProjectConfigListItem;
+use OsumiFramework\App\Model\User;
+use OsumiFramework\App\Model\Project;
+use OsumiFramework\App\Service\userService;
+use OsumiFramework\App\Service\projectService;
+use OsumiFramework\OFW\Plugins\OToken;
+use OsumiFramework\OFW\Plugins\OCrypt;
+
+#[ORoute(
+	type: 'json',
+	prefix: '/api'
+)]
 class api extends OModule {
 	private ?userService $user_service = null;
 	private ?projectService $project_service = null;
@@ -15,10 +32,10 @@ class api extends OModule {
 	/**
 	 * Función para iniciar sesión en la aplicación
 	 *
-	 * @url /login
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute('/login')]
 	public function login(ORequest $req): void {
 		$status = 'ok';
 		$name   = $req->getParamString('name');
@@ -40,7 +57,7 @@ class api extends OModule {
 					$tk = new OToken($this->getConfig()->getExtra('secret'));
 					$tk->addParam('id',   $id);
 					$tk->addParam('name', $name);
-					$tk->addParam('exp', mktime() + (24 * 60 * 60));
+					$tk->addParam('exp', time() + (24 * 60 * 60));
 					$token = $tk->getToken();
 				}
 				else {
@@ -61,10 +78,10 @@ class api extends OModule {
 	/**
 	 * Función para registrarse en la aplicación
 	 *
-	 * @url /register
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute('/register')]
 	public function register(ORequest $req): void {
 		$status = 'ok';
 		$name   = $req->getParamString('name');
@@ -91,7 +108,7 @@ class api extends OModule {
 				$tk = new OToken($this->getConfig()->getExtra('secret'));
 				$tk->addParam('id',   $id);
 				$tk->addParam('name', $name);
-				$tk->addParam('exp', mktime() + (24 * 60 * 60));
+				$tk->addParam('exp', time() + (24 * 60 * 60));
 				$token = $tk->getToken();
 			}
 		}
@@ -105,11 +122,13 @@ class api extends OModule {
 	/**
 	 * Función para obtener la lista de proyectos
 	 *
-	 * @url /get-projects
-	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute(
+		'/get-projects',
+		filter: 'loginFilter'
+	)]
 	public function getProjects(ORequest $req): void {
 		$status = 'ok';
 		$filter = $req->getFilter('loginFilter');
@@ -130,11 +149,13 @@ class api extends OModule {
 	/**
 	 * Función para obtener la lista de includes para añadir a un proyecto
 	 *
-	 * @url /get-includes
-	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute(
+		'/get-includes',
+		filter: 'loginFilter'
+	)]
 	public function getIncludes(ORequest $req): void {
 		$status = 'ok';
 		$filter = $req->getFilter('loginFilter');
@@ -155,11 +176,13 @@ class api extends OModule {
 	/**
 	 * Función para guardar un proyecto
 	 *
-	 * @url /save-project
-	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute(
+		'/save-project',
+		filter: 'loginFilter'
+	)]
 	public function saveProject(ORequest $req): void {
 		$status = 'ok';
 		$filter = $req->getFilter('loginFilter');
@@ -338,11 +361,13 @@ class api extends OModule {
 	/**
 	 * Función para obtener los detalles de un proyecto
 	 *
-	 * @url /get-project
-	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute(
+		'/get-project',
+		filter: 'loginFilter'
+	)]
 	public function getProject(ORequest $req): void {
 		$status = 'ok';
 		$id     = $req->getParamInt('id');
@@ -391,11 +416,13 @@ class api extends OModule {
 	/**
 	 * Función para borrar un proyecto
 	 *
-	 * @url /delete-project
-	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute(
+		'/delete-project',
+		filter: 'loginFilter'
+	)]
 	public function deleteProject(ORequest $req): void {
 		$status = 'ok';
 		$id     = $req->getParamInt('id');
@@ -426,11 +453,13 @@ class api extends OModule {
 	/**
 	 * Función para generar el descargable de un proyecto
 	 *
-	 * @url /generate-project
-	 * @filter loginFilter
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute(
+		'/generate-project',
+		filter: 'loginFilter'
+	)]
 	public function generateProject(ORequest $req): void {
 		$status = 'ok';
 		$id     = $req->getParamInt('id');
@@ -481,10 +510,10 @@ class api extends OModule {
 	/**
 	 * Función para descargar el archivo ZIP de un proyecto
 	 *
-	 * @url /download-project/:id
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute('/download-project/:id')]
 	public function downloadProject(ORequest $req): void {
 		$status = 'ok';
 		$id     = $req->getParamInt('id');
@@ -525,10 +554,10 @@ class api extends OModule {
 	/**
 	 * Función para obtener la lista de plugins
 	 *
-	 * @url /get-plugin-list
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
 	 * @return void
 	 */
+	#[ORoute('/get-plugin-list')]
 	public function getPluginList(ORequest $req): void {
 		$list = $this->project_service->getPluginList();
 		$this->getTemplate()->addComponent('list', 'api/plugin_list', ['list' => $list, 'extra' => 'nourlencode']);

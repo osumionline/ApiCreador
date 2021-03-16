@@ -1,4 +1,9 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Model;
+
+use OsumiFramework\OFW\DB\OModel;
+
 class ProjectConfig extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
@@ -7,111 +12,111 @@ class ProjectConfig extends OModel {
 		$table_name  = 'project_config';
 		$model = [
 			'id' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'comment' => 'Id único para cada proyecto'
 			],
 			'id_project' => [
-				'type'     => OCore::NUM,
+				'type'     => OModel::NUM,
 				'nullable' => false,
 				'comment'  => 'Id del proyecto al que pertenece la configuración',
 				'ref'      => 'project.id'
 			],
 			'db_host' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 50,
 				'nullable' => true,
 				'comment'  => 'Host de la base de datos'
 			],
 			'db_user' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 50,
 				'nullable' => true,
 				'comment'  => 'Nombre de usuario para la base de datos'
 			],
 			'db_pass' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 100,
 				'nullable' => true,
 				'comment'  => 'Contraseña cifrada para la base de datos'
 			],
 			'db_name' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 50,
 				'nullable' => true,
 				'comment'  => 'Nombre de la base de datos'
 			],
 			'db_charset' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 50,
 				'nullable' => true,
 				'comment'  => 'Charset de la base de datos'
 			],
 			'db_collate' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 50,
 				'nullable' => true,
 				'comment'  => 'Collate de la base de datos'
 			],
 			'cookies_prefix' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 50,
 				'nullable' => true,
 				'comment'  => 'Prefijo para las cookies'
 			],
 			'cookies_url' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 100,
 				'nullable' => true,
 				'comment'  => 'URL para las cookies'
 			],
 			'base_url' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 250,
 				'nullable' => true,
 				'comment'  => 'URL base de la aplicación'
 			],
 			'admin_email' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 100,
 				'nullable' => true,
 				'comment'  => 'Dirección email para notificaciones al admin'
 			],
 			'default_title' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 100,
 				'nullable' => true,
 				'comment'  => 'Título por defecto para las páginas'
 			],
 			'lang' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 10,
 				'nullable' => true,
 				'comment'  => 'Código de idioma por defecto'
 			],
 			'error_403' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 100,
 				'nullable' => true,
 				'comment'  => 'URL al que redirigir en caso de error 403'
 			],
 			'error_404' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 100,
 				'nullable' => true,
 				'comment'  => 'URL al que redirigir en caso de error 404'
 			],
 			'error_500' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 100,
 				'nullable' => true,
 				'comment'  => 'URL al que redirigir en caso de error 500'
 			],
 			'created_at' => [
-				'type'    => OCore::CREATED,
+				'type'    => OModel::CREATED,
 				'comment' => 'Fecha de creación del registro'
 			],
 			'updated_at' => [
-				'type'    => OCore::UPDATED,
+				'type'    => OModel::UPDATED,
 				'comment' => 'Fecha de última modificación del registro'
 			]
 		];

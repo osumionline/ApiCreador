@@ -1,4 +1,9 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Model;
+
+use OsumiFramework\OFW\DB\OModel;
+
 class Model extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
@@ -7,33 +12,33 @@ class Model extends OModel {
 		$table_name  = 'model';
 		$model = [
 			'id' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'comment' => 'Id único para cada modelo'
 			],
 			'id_project' => [
-				'type'     => OCore::NUM,
+				'type'     => OModel::NUM,
 				'nullable' => false,
 				'comment'  => 'Id del proyecto al que pertenece el modelo',
 				'ref'      => 'project.id'
 			],
 			'name' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 100,
 				'nullable' => false,
 				'comment'  => 'Nombre del modelo'
 			],
 			'table_name' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 100,
 				'nullable' => false,
 				'comment'  => 'Nombre de la tabla en la base de datos'
 			],
 			'created_at' => [
-				'type'    => OCore::CREATED,
+				'type'    => OModel::CREATED,
 				'comment' => 'Fecha de creación del registro'
 			],
 			'updated_at' => [
-				'type'    => OCore::UPDATED,
+				'type'    => OModel::UPDATED,
 				'comment' => 'Fecha de última modificación del registro'
 			]
 		];

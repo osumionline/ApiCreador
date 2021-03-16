@@ -1,4 +1,10 @@
 <?php declare(strict_types=1);
+
+namespace OsumiFramework\App\Model;
+
+use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\App\Model\IncludeFile;
+
 class IncludeVersion extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
@@ -7,27 +13,27 @@ class IncludeVersion extends OModel {
 		$table_name  = 'include_version';
 		$model = [
 			'id' => [
-				'type'    => OCore::PK,
+				'type'    => OModel::PK,
 				'comment' => 'Id unico de la version del include'
 			],
 			'id_include_type' => [
-				'type'     => OCore::NUM,
+				'type'     => OModel::NUM,
 				'nullable' => false,
 				'comment'  => 'Id del tipo de include',
 				'ref'      => 'include_type.id'
 			],
 			'version' => [
-				'type'     => OCore::TEXT,
+				'type'     => OModel::TEXT,
 				'size'     => 10,
 				'nullable' => false,
 				'comment'  => 'Número de versión del tipo de include'
 			],
 			'created_at' => [
-				'type'    => OCore::CREATED,
+				'type'    => OModel::CREATED,
 				'comment' => 'Fecha de creación del registro'
 			],
 			'updated_at' => [
-				'type'    => OCore::UPDATED,
+				'type'    => OModel::UPDATED,
 				'comment' => 'Fecha de última modificación del registro'
 			]
 		];
