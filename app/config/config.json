@@ -1,4 +1,5 @@
 {
+	"name": "Creador",
 	"db": {
 		"host": "localhost",
 		"user": "creador",
