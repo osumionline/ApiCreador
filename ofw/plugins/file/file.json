@@ -1,12 +1,18 @@
 {
 	"file_name": "OFile.php",
-	"version": "2.0.0",
+	"version": "2.1.0",
 	"description": "Clase para manipular archivos (copiar, mover, borrar...).",
 	"updates": {
+		"2.1.0": {
+			"message": "2.1.0 - Actualizo listas de carpetas y archivos del Framework",
+			"files": [
+				"OFile.php"
+			]
+		},
 		"2.0.0": {
 			"message": "2.0.0 - Añado nombre de espacios para OFW 7.0 y actualizo listas de carpetas y archivos del Framework",
 			"files": [
-				"OEmail.php"
+				"OFile.php"
 			]
 		},
 		"1.4.0": {
