@@ -120,6 +120,54 @@ class api extends OModule {
 	}
 
 	/**
+	 * Función para modificar los datos de un usuario
+	 *
+	 * @param ORequest $req Request object with method, headers, parameters and filters used
+	 * @return void
+	 */
+	#[ORoute(
+		'/saveSettings',
+		filter: 'loginFilter'
+	)]
+	public function saveSettings(ORequest $req): void {
+		$status = 'ok';
+		$name   = $req->getParamString('name');
+		$pass   = $req->getParamString('pass');
+		$filter = $req->getFilter('loginFilter');
+		$id     = 'null';
+		$token  = '';
+
+		if (is_null($name) || is_null($pass)  || $filter['status']=='error') {
+			$status = 'error';
+		}
+
+		if ($status=='ok') {
+			$u = new User();
+			if ($u->find(['username'=>$name]) && $u->get('id') != $filter['id']) {
+				$status = 'error-user';
+			}
+			else {
+				$u->set('username', $name);
+				$u->set('pass',     password_hash($pass, PASSWORD_BCRYPT));
+				$u->save();
+
+				$id = $u->get('id');
+
+				$tk = new OToken($this->getConfig()->getExtra('secret'));
+				$tk->addParam('id',   $id);
+				$tk->addParam('name', $name);
+				$tk->addParam('exp', time() + (24 * 60 * 60));
+				$token = $tk->getToken();
+			}
+		}
+
+		$this->getTemplate()->add('status', $status);
+		$this->getTemplate()->add('id',     $id);
+		$this->getTemplate()->add('name',   $name);
+		$this->getTemplate()->add('token',  $token);
+	}
+
+	/**
 	 * Función para obtener la lista de proyectos
 	 *
 	 * @param ORequest $req Request object with method, headers, parameters and filters used
