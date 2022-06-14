@@ -10,8 +10,8 @@ use OsumiFramework\App\Component\IncludeListComponent;
 #[OModuleAction(
 	url: '/get-includes',
 	filter: 'login',
-	services: 'user',
-	components: 'api/include_list'
+	services: ['user'],
+	components: ['api/include_list']
 )]
 class getIncludesAction extends OAction {
 	/**
@@ -23,7 +23,7 @@ class getIncludesAction extends OAction {
 	public function run(ORequest $req):void {
 		$status = 'ok';
 		$filter = $req->getFilter('login');
-		$include_list_component = new IncludeListComponent(['list' => [], 'extra'=>'nourlencode']);
+		$include_list_component = new IncludeListComponent(['list' => []]);
 
 		if (is_null($filter) || !array_key_exists('id', $filter)) {
 			$status = 'error';
@@ -31,7 +31,7 @@ class getIncludesAction extends OAction {
 
 		if ($status=='ok'){
 			$list = $this->user_service->getIncludes();
-			$include_list_component = new IncludeListComponent(['list' => $list, 'extra'=>'nourlencode']);
+			$include_list_component->setValue('list', $list);
 		}
 
 		$this->getTemplate()->add('status', $status);

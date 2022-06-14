@@ -10,8 +10,8 @@ use OsumiFramework\App\Component\ProjectListComponent;
 #[OModuleAction(
 	url: '/get-projects',
 	filter: 'login',
-	services: 'user',
-	components: 'api/project_list'
+	services: ['user'],
+	components: ['api/project_list']
 )]
 class getProjectsAction extends OAction {
 	/**
@@ -23,7 +23,7 @@ class getProjectsAction extends OAction {
 	public function run(ORequest $req):void {
 		$status = 'ok';
 		$filter = $req->getFilter('login');
-		$project_list_component = new ProjectListComponent(['list' => [], 'extra'=>'nourlencode']);
+		$project_list_component = new ProjectListComponent(['list' => []]);
 
 		if (is_null($filter) || !array_key_exists('id', $filter)) {
 			$status = 'error';
@@ -31,7 +31,7 @@ class getProjectsAction extends OAction {
 
 		if ($status=='ok'){
 			$list = $this->user_service->getProjects($filter['id']);
-			$project_list_component = new ProjectListComponent(['list' => $list, 'extra'=>'nourlencode']);
+			$project_list_component->setValue('list', $list);
 		}
 
 		$this->getTemplate()->add('status', $status);

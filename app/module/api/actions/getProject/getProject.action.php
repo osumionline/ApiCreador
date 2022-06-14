@@ -15,8 +15,8 @@ use OsumiFramework\App\Component\IncludesComponent;
 #[OModuleAction(
 	url: '/get-project',
 	filter: 'login',
-	services: 'user',
-	components: 'project/project, project/configuration, project/lists, project/models, project/includes'
+	services: ['user'],
+	components: ['project/project', 'project/configuration', 'project/lists', 'project/models', 'project/includes']
 )]
 class getProjectAction extends OAction {
 	/**
@@ -30,11 +30,11 @@ class getProjectAction extends OAction {
 		$id     = $req->getParamInt('id');
 		$filter = $req->getFilter('login');
 
-		$project       = new ProjectComponent(['project' => null, 'extra' => 'nourlencode']);
-		$configuration = new ConfigurationComponent(['configuration' => null, 'extra' => 'nourlencode']);
-		$lists         = new ListsComponent(['lists' => null, 'extra' => 'nourlencode']);
-		$models        = new ModelsComponent(['models' => null, 'extra' => 'nourlencode']);
-		$includes      = new IncludesComponent(['includes' => null, 'extra' => 'nourlencode']);
+		$project       = new ProjectComponent(['project' => null]);
+		$configuration = new ConfigurationComponent(['configuration' => null]);
+		$lists         = new ListsComponent(['lists' => null]);
+		$models        = new ModelsComponent(['models' => null]);
+		$includes      = new IncludesComponent(['includes' => null]);
 
 		if (is_null($filter) || !array_key_exists('id', $filter) || is_null($id)) {
 			$status = 'error';
@@ -46,11 +46,11 @@ class getProjectAction extends OAction {
 				if ($pr->get('id_user')==$filter['id']) {
 					$conf = $pr->getProjectConfig();
 
-					$project       = new ProjectComponent(['project' => $pr, 'extra' => 'nourlencode']);
-					$configuration = new ConfigurationComponent(['configuration' => $conf, 'extra' => 'nourlencode']);
-					$lists         = new ListsComponent(['lists' => $conf->getProjectConfigurationLists(), 'extra' => 'nourlencode']);
-					$models        = new ModelsComponent(['models' => $pr->getProjectModels(), 'extra' => 'nourlencode']);
-					$includes      = new IncludesComponent(['includes' => $pr->getProjectIncludes(), 'extra' => 'nourlencode']);
+					$project->setValue('project', $pr);
+					$configuration->setValue('configuration', $conf);
+					$lists->setValue('lists', $conf->getProjectConfigurationLists());
+					$models->setValue('models', $pr->getProjectModels());
+					$includes->setValue('includes', $pr->getProjectIncludes());
 				}
 				else {
 					// El proyecto es de otro usuario
