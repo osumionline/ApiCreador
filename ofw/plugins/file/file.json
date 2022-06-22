@@ -1,8 +1,14 @@
 {
 	"file_name": "OFile.php",
-	"version": "2.1.0",
+	"version": "2.2.0",
 	"description": "Clase para manipular archivos (copiar, mover, borrar...).",
 	"updates": {
+		"2.2.0": {
+			"message": "2.2.0 - Actualizo listas de carpetas y archivos del Framework por la versión 8",
+			"files": [
+				"OFile.php"
+			]
+		},
 		"2.1.0": {
 			"message": "2.1.0 - Actualizo listas de carpetas y archivos del Framework",
 			"files": [
