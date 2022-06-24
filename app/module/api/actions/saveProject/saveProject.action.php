@@ -15,7 +15,7 @@ use OsumiFramework\App\Model\Row;
 
 #[OModuleAction(
 	url: '/save-project',
-	filter: 'login',
+	filters: ['login'],
 	services: ['user']
 )]
 class saveProjectAction extends OAction {

@@ -9,7 +9,7 @@ use OsumiFramework\App\Model\Project;
 
 #[OModuleAction(
 	url: '/generate-project',
-	filter: 'login',
+	filters: ['login'],
 	services: ['project']
 )]
 class generateProjectAction extends OAction {

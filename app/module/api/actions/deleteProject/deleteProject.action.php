@@ -9,7 +9,7 @@ use OsumiFramework\App\Model\Project;
 
 #[OModuleAction(
 	url: '/delete-project',
-	filter: 'login'
+	filters: ['login']
 )]
 class deleteProjectAction extends OAction {
 	/**

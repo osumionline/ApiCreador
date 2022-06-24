@@ -9,7 +9,7 @@ use OsumiFramework\App\Component\IncludeListComponent;
 
 #[OModuleAction(
 	url: '/get-includes',
-	filter: 'login',
+	filters: ['login'],
 	services: ['user'],
 	components: ['api/include_list']
 )]

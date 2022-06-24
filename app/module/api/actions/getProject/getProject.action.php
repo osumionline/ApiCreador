@@ -14,7 +14,7 @@ use OsumiFramework\App\Component\IncludesComponent;
 
 #[OModuleAction(
 	url: '/get-project',
-	filter: 'login',
+	filters: ['login'],
 	services: ['user'],
 	components: ['project/project', 'project/configuration', 'project/lists', 'project/models', 'project/includes']
 )]

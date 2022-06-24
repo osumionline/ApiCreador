@@ -9,7 +9,7 @@ use OsumiFramework\App\Component\ProjectListComponent;
 
 #[OModuleAction(
 	url: '/get-projects',
-	filter: 'login',
+	filters: ['login'],
 	services: ['user'],
 	components: ['api/project_list']
 )]
