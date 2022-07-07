@@ -6,17 +6,16 @@ use OsumiFramework\OFW\Routing\OModuleAction;
 use OsumiFramework\OFW\Routing\OAction;
 use OsumiFramework\OFW\Web\ORequest;
 use OsumiFramework\App\Model\Project;
-use OsumiFramework\App\Component\ProjectComponent;
-use OsumiFramework\App\Component\ConfigurationComponent;
-use OsumiFramework\App\Component\ListsComponent;
-use OsumiFramework\App\Component\ModelsComponent;
-use OsumiFramework\App\Component\IncludesComponent;
+use OsumiFramework\App\Component\Project\ProjectComponent;
+use OsumiFramework\App\Component\Project\ConfigurationComponent;
+use OsumiFramework\App\Component\Project\ListsComponent;
+use OsumiFramework\App\Component\Project\ModelsComponent;
+use OsumiFramework\App\Component\Project\IncludesComponent;
 
 #[OModuleAction(
 	url: '/get-project',
 	filters: ['login'],
-	services: ['user'],
-	components: ['project/project', 'project/configuration', 'project/lists', 'project/models', 'project/includes']
+	services: ['user']
 )]
 class getProjectAction extends OAction {
 	/**

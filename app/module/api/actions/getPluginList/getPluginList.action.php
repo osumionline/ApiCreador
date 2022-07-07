@@ -5,12 +5,11 @@ namespace OsumiFramework\App\Module\Action;
 use OsumiFramework\OFW\Routing\OModuleAction;
 use OsumiFramework\OFW\Routing\OAction;
 use OsumiFramework\OFW\Web\ORequest;
-use OsumiFramework\App\Component\PluginListComponent;
+use OsumiFramework\App\Component\Api\PluginListComponent;
 
 #[OModuleAction(
 	url: '/get-plugin-list',
-	services: ['project'],
-	components: ['api/plugin_list']
+	services: ['project']
 )]
 class getPluginListAction extends OAction {
 	/**

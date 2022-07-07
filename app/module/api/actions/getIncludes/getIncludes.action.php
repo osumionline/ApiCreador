@@ -5,13 +5,12 @@ namespace OsumiFramework\App\Module\Action;
 use OsumiFramework\OFW\Routing\OModuleAction;
 use OsumiFramework\OFW\Routing\OAction;
 use OsumiFramework\OFW\Web\ORequest;
-use OsumiFramework\App\Component\IncludeListComponent;
+use OsumiFramework\App\Component\Api\IncludeListComponent;
 
 #[OModuleAction(
 	url: '/get-includes',
 	filters: ['login'],
-	services: ['user'],
-	components: ['api/include_list']
+	services: ['user']
 )]
 class getIncludesAction extends OAction {
 	/**
