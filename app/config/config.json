@@ -6,13 +6,13 @@
 		"pass": "Kvlp230!5",
 		"name": "creador"
 	},
-	"base_url": "https://apicreador.osumi.es/",
+	"base_url": "https://apicreador.osumi.dev/",
 	"extra": {
 		"secret": "e5c16ee28521ca6214ee10ac5135c3a3c706e112",
 		"crypt_key": "IZc2VDu3432r4RnsH4Mg0YkIoHtWe+G11Ct9N94K06Q=",
 		"plugins_url": "https://raw.githubusercontent.com/igorosabel/Osumi-Plugins/master/plugins.json"
 	},
 	"dir": {
-		"include": "/var/www/vhosts/osumi.es/apicreador.osumi.es/include/"
+		"include": "/var/www/vhosts/osumi.dev/apicreador.osumi.dev/include/"
 	}
 }
