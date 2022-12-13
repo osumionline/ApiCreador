@@ -3,44 +3,52 @@
 namespace OsumiFramework\App\Model;
 
 use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\OFW\DB\OModelGroup;
+use OsumiFramework\OFW\DB\OModelField;
 
 class Model extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
 	 */
 	function __construct() {
-		$model = [
-			'id' => [
-				'type'    => OModel::PK,
-				'comment' => 'Id único para cada modelo'
-			],
-			'id_project' => [
-				'type'     => OModel::NUM,
-				'nullable' => false,
-				'comment'  => 'Id del proyecto al que pertenece el modelo',
-				'ref'      => 'project.id'
-			],
-			'name' => [
-				'type'     => OModel::TEXT,
-				'size'     => 100,
-				'nullable' => false,
-				'comment'  => 'Nombre del modelo'
-			],
-			'table_name' => [
-				'type'     => OModel::TEXT,
-				'size'     => 100,
-				'nullable' => false,
-				'comment'  => 'Nombre de la tabla en la base de datos'
-			],
-			'created_at' => [
-				'type'    => OModel::CREATED,
-				'comment' => 'Fecha de creación del registro'
-			],
-			'updated_at' => [
-				'type'    => OModel::UPDATED,
-				'comment' => 'Fecha de última modificación del registro'
-			]
-		];
+		$model = new OModelGroup(
+			new OModelField(
+				name: 'id',
+				type: OMODEL_PK,
+				comment: 'Id único para cada modelo'
+			),
+			new OModelField(
+				name: 'id_project',
+				type: OMODEL_NUM,
+				nullable: false,
+				comment: 'Id del proyecto al que pertenece el modelo',
+				ref: 'project.id'
+			),
+			new OModelField(
+				name: 'name',
+				type: OMODEL_TEXT,
+				size: 100,
+				nullable: false,
+				comment: 'Nombre del modelo'
+			),
+			new OModelField(
+				name: 'table_name',
+				type: OMODEL_TEXT,
+				size: 100,
+				nullable: false,
+				comment: 'Nombre de la tabla en la base de datos'
+			),
+			new OModelField(
+				name: 'created_at',
+				type: OMODEL_CREATED,
+				comment: 'Fecha de creación del registro'
+			),
+			new OModelField(
+				name: 'updated_at',
+				type: OMODEL_UPDATED,
+				comment: 'Fecha de última modificación del registro'
+			)
+		);
 
 		parent::load($model);
 	}

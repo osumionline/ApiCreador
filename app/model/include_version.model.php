@@ -3,6 +3,8 @@
 namespace OsumiFramework\App\Model;
 
 use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\OFW\DB\OModelGroup;
+use OsumiFramework\OFW\DB\OModelField;
 use OsumiFramework\App\Model\IncludeFile;
 
 class IncludeVersion extends OModel {
@@ -10,32 +12,37 @@ class IncludeVersion extends OModel {
 	 * Configures current model object based on data-base table structure
 	 */
 	function __construct() {
-		$model = [
-			'id' => [
-				'type'    => OModel::PK,
-				'comment' => 'Id unico de la version del include'
-			],
-			'id_include_type' => [
-				'type'     => OModel::NUM,
-				'nullable' => false,
-				'comment'  => 'Id del tipo de include',
-				'ref'      => 'include_type.id'
-			],
-			'version' => [
-				'type'     => OModel::TEXT,
-				'size'     => 10,
-				'nullable' => false,
-				'comment'  => 'Número de versión del tipo de include'
-			],
-			'created_at' => [
-				'type'    => OModel::CREATED,
-				'comment' => 'Fecha de creación del registro'
-			],
-			'updated_at' => [
-				'type'    => OModel::UPDATED,
-				'comment' => 'Fecha de última modificación del registro'
-			]
-		];
+		$model = new OModelGroup(
+			new OModelField(
+				name: 'id',
+				type: OMODEL_PK,
+				comment: 'Id unico de la version del include'
+			),
+			new OModelField(
+				name: 'id_include_type',
+				type: OMODEL_NUM,
+				nullable: false,
+				comment: 'Id del tipo de include',
+				ref: 'include_type.id'
+			),
+			new OModelField(
+				name: 'version',
+				type: OMODEL_TEXT,
+				size: 10,
+				nullable: false,
+				comment: 'Número de versión del tipo de include'
+			),
+			new OModelField(
+				name: 'created_at',
+				type: OMODEL_CREATED,
+				comment: 'Fecha de creación del registro'
+			),
+			new OModelField(
+				name: 'updated_at',
+				type: OMODEL_UPDATED,
+				comment: 'Fecha de última modificación del registro'
+			)
+		);
 
 		parent::load($model);
 	}

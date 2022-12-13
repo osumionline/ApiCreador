@@ -3,122 +3,143 @@
 namespace OsumiFramework\App\Model;
 
 use OsumiFramework\OFW\DB\OModel;
+use OsumiFramework\OFW\DB\OModelGroup;
+use OsumiFramework\OFW\DB\OModelField;
 
 class ProjectConfig extends OModel {
 	/**
 	 * Configures current model object based on data-base table structure
 	 */
 	function __construct() {
-		$model = [
-			'id' => [
-				'type'    => OModel::PK,
-				'comment' => 'Id único para cada proyecto'
-			],
-			'id_project' => [
-				'type'     => OModel::NUM,
-				'nullable' => false,
-				'comment'  => 'Id del proyecto al que pertenece la configuración',
-				'ref'      => 'project.id'
-			],
-			'db_host' => [
-				'type'     => OModel::TEXT,
-				'size'     => 50,
-				'nullable' => true,
-				'comment'  => 'Host de la base de datos'
-			],
-			'db_user' => [
-				'type'     => OModel::TEXT,
-				'size'     => 50,
-				'nullable' => true,
-				'comment'  => 'Nombre de usuario para la base de datos'
-			],
-			'db_pass' => [
-				'type'     => OModel::TEXT,
-				'size'     => 100,
-				'nullable' => true,
-				'comment'  => 'Contraseña cifrada para la base de datos'
-			],
-			'db_name' => [
-				'type'     => OModel::TEXT,
-				'size'     => 50,
-				'nullable' => true,
-				'comment'  => 'Nombre de la base de datos'
-			],
-			'db_charset' => [
-				'type'     => OModel::TEXT,
-				'size'     => 50,
-				'nullable' => true,
-				'comment'  => 'Charset de la base de datos'
-			],
-			'db_collate' => [
-				'type'     => OModel::TEXT,
-				'size'     => 50,
-				'nullable' => true,
-				'comment'  => 'Collate de la base de datos'
-			],
-			'cookies_prefix' => [
-				'type'     => OModel::TEXT,
-				'size'     => 50,
-				'nullable' => true,
-				'comment'  => 'Prefijo para las cookies'
-			],
-			'cookies_url' => [
-				'type'     => OModel::TEXT,
-				'size'     => 100,
-				'nullable' => true,
-				'comment'  => 'URL para las cookies'
-			],
-			'base_url' => [
-				'type'     => OModel::TEXT,
-				'size'     => 250,
-				'nullable' => true,
-				'comment'  => 'URL base de la aplicación'
-			],
-			'admin_email' => [
-				'type'     => OModel::TEXT,
-				'size'     => 100,
-				'nullable' => true,
-				'comment'  => 'Dirección email para notificaciones al admin'
-			],
-			'default_title' => [
-				'type'     => OModel::TEXT,
-				'size'     => 100,
-				'nullable' => true,
-				'comment'  => 'Título por defecto para las páginas'
-			],
-			'lang' => [
-				'type'     => OModel::TEXT,
-				'size'     => 10,
-				'nullable' => true,
-				'comment'  => 'Código de idioma por defecto'
-			],
-			'error_403' => [
-				'type'     => OModel::TEXT,
-				'size'     => 100,
-				'nullable' => true,
-				'comment'  => 'URL al que redirigir en caso de error 403'
-			],
-			'error_404' => [
-				'type'     => OModel::TEXT,
-				'size'     => 100,
-				'nullable' => true,
-				'comment'  => 'URL al que redirigir en caso de error 404'
-			],
-			'error_500' => [
-				'type'     => OModel::TEXT,
-				'size'     => 100,
-				'nullable' => true,
-				'comment'  => 'URL al que redirigir en caso de error 500'
-			],
-			'created_at' => [
-				'type'    => OModel::CREATED,
-				'comment' => 'Fecha de creación del registro'
-			],
-			'updated_at' => [
-				'type'    => OModel::UPDATED,
-				'comment' => 'Fecha de última modificación del registro'
-			]
-		];
+		$model = new OModelGroup(
+			new OModelField(
+				name: 'id',
+				type: OMODEL_PK,
+				comment: 'Id único para cada proyecto'
+			),
+			new OModelField(
+				name: 'id_project',
+				type: OMODEL_NUM,
+				nullable: false,
+				comment: 'Id del proyecto al que pertenece la configuración',
+				ref: 'project.id'
+			),
+			new OModelField(
+				name: 'db_host',
+				type: OMODEL_TEXT,
+				size: 50,
+				nullable: true,
+				comment: 'Host de la base de datos'
+			),
+			new OModelField(
+				name: 'db_user',
+				type: OMODEL_TEXT,
+				size: 50,
+				nullable: true,
+				comment: 'Nombre de usuario para la base de datos'
+			),
+			new OModelField(
+				name: 'db_pass',
+				type: OMODEL_TEXT,
+				size: 100,
+				nullable: true,
+				comment: 'Contraseña cifrada para la base de datos'
+			),
+			new OModelField(
+				name: 'db_name',
+				type: OMODEL_TEXT,
+				size: 50,
+				nullable: true,
+				comment: 'Nombre de la base de datos'
+			),
+			new OModelField(
+				name: 'db_charset',
+				type: OMODEL_TEXT,
+				size: 50,
+				nullable: true,
+				comment: 'Charset de la base de datos'
+			),
+			new OModelField(
+				name: 'db_collate',
+				type: OMODEL_TEXT,
+				size: 50,
+				nullable: true,
+				comment: 'Collate de la base de datos'
+			),
+			new OModelField(
+				name: 'cookies_prefix',
+				type: OMODEL_TEXT,
+				size: 50,
+				nullable: true,
+				comment: 'Prefijo para las cookies'
+			),
+			new OModelField(
+				name: 'cookies_url',
+				type: OMODEL_TEXT,
+				size: 100,
+				nullable: true,
+				comment: 'URL para las cookies'
+			),
+			new OModelField(
+				name: 'base_url',
+				type: OMODEL_TEXT,
+				size: 250,
+				nullable: true,
+				comment: 'URL base de la aplicación'
+			),
+			new OModelField(
+				name: 'admin_email',
+				type: OMODEL_TEXT,
+				size: 100,
+				nullable: true,
+				comment: 'Dirección email para notificaciones al admin'
+			),
+			new OModelField(
+				name: 'default_title',
+				type: OMODEL_TEXT,
+				size: 100,
+				nullable: true,
+				comment: 'Título por defecto para las páginas'
+			),
+			new OModelField(
+				name: 'lang',
+				type: OMODEL_TEXT,
+				size: 10,
+				nullable: true,
+				comment: 'Código de idioma por defecto'
+			),
+			new OModelField(
+				name: 'error_403',
+				type: OMODEL_TEXT,
+				size: 100,
+				nullable: true,
+				comment: 'URL al que redirigir en caso de error 403'
+			),
+			new OModelField(
+				name: 'error_404',
+				type: OMODEL_TEXT,
+				size: 100,
+				nullable: true,
+				comment: 'URL al que redirigir en caso de error 404'
+			),
+			new OModelField(
+				name: 'error_500',
+				type: OMODEL_TEXT,
+				size: 100,
+				nullable: true,
+				comment: 'URL al que redirigir en caso de error 500'
+			),
+			new OModelField(
+				name: 'created_at',
+				type: OMODEL_CREATED,
+				comment: 'Fecha de creación del registro'
+			),
+			new OModelField(
+				name: 'updated_at',
+				type: OMODEL_UPDATED,
+				comment: 'Fecha de última modificación del registro'
+			)
+		);
 
 		parent::load($model);
 	}
