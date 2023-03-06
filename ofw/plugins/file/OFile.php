@@ -178,6 +178,13 @@ class OFile {
 			'ofw/vendor/db/odb.class.php',
 			'ofw/vendor/db/odb.container.class.php',
 			'ofw/vendor/db/omodel.class.php',
+			'ofw/vendor/db/omodel.field.bool.class.php',
+			'ofw/vendor/db/omodel.field.class.php',
+			'ofw/vendor/db/omodel.field.date.class.php',
+			'ofw/vendor/db/omodel.field.float.class.php',
+			'ofw/vendor/db/omodel.field.num.class.php',
+			'ofw/vendor/db/omodel.field.text.class.php',
+			'ofw/vendor/db/omodel.group.class.php',
 			'ofw/vendor/log/olog.class.php',
 			'ofw/vendor/routing/oaction.class.php',
 			'ofw/vendor/routing/omodule.class.php',
@@ -192,7 +199,7 @@ class OFile {
 			'ofw/vendor/web/osession.class.php',
 			'ofw/vendor/version.json',
 			'web/.htaccess',
-			'web/favicon.png',
+			'web/favicon.ico',
 			'web/index.php'
 		];
 	}
