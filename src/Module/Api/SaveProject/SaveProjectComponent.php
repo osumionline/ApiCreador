@@ -55,15 +55,14 @@ class SaveProjectComponent extends OComponent {
 
 			$pr = Project::create();
 			if (!is_null($project['id'])) {
-				$pr->find(['id'=>$project['id']]);
 				$pr = Project::findOne(['id' => $project['id']]);
 			}
 			else {
 				$pr->id_user = $filter['id'];
 			}
-			$pr->name = $project['name'];
-			$pr->slug = OTools::slugify($project['name']);
-			$pr->description = $project['description'];
+			$pr->name = urldecode($project['name']);
+			$pr->slug = OTools::slugify($pr->name);
+			$pr->description = urldecode($project['description']);
 			$pr->save();
 
 			$prc = ProjectConfig::create();
@@ -74,13 +73,13 @@ class SaveProjectComponent extends OComponent {
 				$prc->id_project = $pr->id;
 			}
 			if ($projectConfiguration['hasDB']) {
-				$prc->db_host = $projectConfiguration['dbHost'];
-				$prc->db_user = $projectConfiguration['dbUser'];
-				$prc->db_name = $projectConfiguration['dbName'];
-				$prc->db_charset = $projectConfiguration['dbCharset'];
-				$prc->db_collate = $projectConfiguration['dbCollate'];
+				$prc->db_host = urldecode($projectConfiguration['dbHost']);
+				$prc->db_user = urldecode($projectConfiguration['dbUser']);
+				$prc->db_name = urldecode($projectConfiguration['dbName']);
+				$prc->db_charset = urldecode($projectConfiguration['dbCharset']);
+				$prc->db_collate = urldecode($projectConfiguration['dbCollate']);
 				if (is_null($project['id']) || (!is_null($project['id']) && $projectConfiguration['dbPass'] !== '')) {
-					$prc->db_pass = $crypt->encrypt($projectConfiguration['dbPass']);
+					$prc->db_pass = $crypt->encrypt(urldecode($projectConfiguration['dbPass']));
 				}
 			}
 			else {
@@ -91,15 +90,15 @@ class SaveProjectComponent extends OComponent {
 				$prc->db_charset = null;
 				$prc->db_collate = null;
 			}
-			$prc->cookies_prefix = ($projectConfiguration['cookiesPrefix'] === '') ? null : $projectConfiguration['cookiesPrefix'];
-			$prc->cookies_url    = ($projectConfiguration['cookiesUrl'] === '')    ? null : $projectConfiguration['cookiesUrl'];
-			$prc->base_url       = ($projectConfiguration['baseUrl'] === '')       ? null : $projectConfiguration['baseUrl'];
-			$prc->admin_email    = ($projectConfiguration['adminEmail'] === '')    ? null : $projectConfiguration['adminEmail'];
-			$prc->default_title  = ($projectConfiguration['defaultTitle'] === '')  ? null : $projectConfiguration['defaultTitle'];
-			$prc->lang           = ($projectConfiguration['lang'] === '')          ? null : $projectConfiguration['lang'];
-			$prc->error_403      = ($projectConfiguration['error403'] === '')      ? null : $projectConfiguration['error403'];
-			$prc->error_404      = ($projectConfiguration['error404'] === '')      ? null : $projectConfiguration['error404'];
-			$prc->error_500      = ($projectConfiguration['error500'] == '')       ? null : $projectConfiguration['error500'];
+			$prc->cookies_prefix = ($projectConfiguration['cookiesPrefix'] === '') ? null : urldecode($projectConfiguration['cookiesPrefix']);
+			$prc->cookies_url    = ($projectConfiguration['cookiesUrl'] === '')    ? null : urldecode($projectConfiguration['cookiesUrl']);
+			$prc->base_url       = ($projectConfiguration['baseUrl'] === '')       ? null : urldecode($projectConfiguration['baseUrl']);
+			$prc->admin_email    = ($projectConfiguration['adminEmail'] === '')    ? null : urldecode($projectConfiguration['adminEmail']);
+			$prc->default_title  = ($projectConfiguration['defaultTitle'] === '')  ? null : urldecode($projectConfiguration['defaultTitle']);
+			$prc->lang           = ($projectConfiguration['lang'] === '')          ? null : urldecode($projectConfiguration['lang']);
+			$prc->error_403      = ($projectConfiguration['error403'] === '')      ? null : urldecode($projectConfiguration['error403']);
+			$prc->error_404      = ($projectConfiguration['error404'] === '')      ? null : urldecode($projectConfiguration['error404']);
+			$prc->error_500      = ($projectConfiguration['error500'] == '')       ? null : urldecode($projectConfiguration['error500']);
 
 			$prc->save();
 
@@ -110,7 +109,7 @@ class SaveProjectComponent extends OComponent {
 				$prcli->id_project_config = $prc->id;
 				$prcli->type              = 0;
 				$prcli->key               = null;
-				$prcli->value             = $value;
+				$prcli->value             = urldecode($value);
 				$prcli->save();
 			}
 			foreach ($projectConfigurationLists['cssExt'] as $value) {
@@ -118,7 +117,7 @@ class SaveProjectComponent extends OComponent {
 				$prcli->id_project_config = $prc->id;
 				$prcli->type              = 1;
 				$prcli->key               = null;
-				$prcli->value             = $value;
+				$prcli->value             = urldecode($value);
 				$prcli->save();
 			}
 			foreach ($projectConfigurationLists['js'] as $value) {
@@ -126,7 +125,7 @@ class SaveProjectComponent extends OComponent {
 				$prcli->id_project_config = $prc->id;
 				$prcli->type              = 2;
 				$prcli->key               = null;
-				$prcli->value             = $value;
+				$prcli->value             = urldecode($value);
 				$prcli->save();
 			}
 			foreach ($projectConfigurationLists['jsExt'] as $value) {
@@ -134,15 +133,15 @@ class SaveProjectComponent extends OComponent {
 				$prcli->id_project_config = $prc->id;
 				$prcli->type              = 3;
 				$prcli->key               = null;
-				$prcli->value             = $value;
+				$prcli->value             = urldecode($value);
 				$prcli->save();
 			}
 			foreach ($projectConfigurationLists['extra'] as $key_value) {
 				$prcli = ProjectConfigListItem::create();
 				$prcli->id_project_config = $prc->id;
 				$prcli->type              = 4;
-				$prcli->key               = $key_value['key'];
-				$prcli->value             = $key_value['value'];
+				$prcli->key               = urldecode($key_value['key']);
+				$prcli->value             = urldecode($key_value['value']);
 				$prcli->save();
 			}
 			foreach ($projectConfigurationLists['libs'] as $value) {
@@ -150,15 +149,15 @@ class SaveProjectComponent extends OComponent {
 				$prcli->id_project_config = $prc->id;
 				$prcli->type              = 5;
 				$prcli->key               = null;
-				$prcli->value             = $value;
+				$prcli->value             = urldecode($value);
 				$prcli->save();
 			}
 			foreach ($projectConfigurationLists['dir'] as $key_value) {
 				$prcli = ProjectConfigListItem::create();
 				$prcli->id_project_config = $prc->id;
 				$prcli->type              = 6;
-				$prcli->key               = $key_value['key'];
-				$prcli->value             = $key_value['value'];
+				$prcli->key               = urldecode($key_value['key']);
+				$prcli->value             = urldecode($key_value['value']);
 				$prcli->save();
 			}
 
@@ -170,8 +169,8 @@ class SaveProjectComponent extends OComponent {
 				else {
 					$prm->id_project = $pr->id;
 				}
-				$prm->name       = $model['name'];
-				$prm->table_name = $model['tableName'];
+				$prm->name       = urldecode($model['name']);
+				$prm->table_name = urldecode($model['tableName']);
 				$prm->save();
 				$model_row_ids = [];
 
@@ -183,14 +182,14 @@ class SaveProjectComponent extends OComponent {
 					else {
 						$prmr->id_model = $prm->id;
 					}
-					$prmr->name           = $row['name'];
+					$prmr->name           = urldecode($row['name']);
 					$prmr->type           = $row['type'];
 					$prmr->size           = ($row['size'] === '') ? null : $row['size'];
 					$prmr->auto_increment = $row['autoIncrement'];
 					$prmr->nullable       = $row['nullable'];
-					$prmr->default        = ($row['defaultValue'] === '') ? null : $row['defaultValue'];
-					$prmr->ref            = ($row['ref'] === '')          ? null : $row['ref'];
-					$prmr->comment        = ($row['comment'] === '')      ? null : $row['comment'];
+					$prmr->default        = ($row['defaultValue'] === '') ? null : urldecode($row['defaultValue']);
+					$prmr->ref            = ($row['ref'] === '')          ? null : urldecode($row['ref']);
+					$prmr->comment        = ($row['comment'] === '')      ? null :urldecode( $row['comment']);
 					$prmr->order          = $ind;
 					$prmr->save();
 
