@@ -11,6 +11,7 @@ use Osumi\OsumiFramework\App\Model\ProjectConfig;
 use Osumi\OsumiFramework\App\Model\ProjectConfigListItem;
 use Osumi\OsumiFramework\App\Model\Model;
 use Osumi\OsumiFramework\App\Model\Row;
+use Osumi\OsumiFramework\App\Model\ProjectPlugin;
 use Osumi\OsumiFramework\App\Service\UserService;
 
 class SaveProjectComponent extends OComponent {
@@ -37,6 +38,7 @@ class SaveProjectComponent extends OComponent {
 		$projectConfigurationLists = $req->getParam('projectConfigurationLists');
 		$projectModel              = $req->getParam('projectModel');
 		$includeTypes              = $req->getParam('includeTypes');
+		$plugins                   = $req->getParam('plugins');
 
 		if (
 			is_null($filter) ||
@@ -45,7 +47,8 @@ class SaveProjectComponent extends OComponent {
 			is_null($projectConfiguration) ||
 			is_null($projectConfigurationLists) ||
 			is_null($projectModel) ||
-			is_null($includeTypes)
+			is_null($includeTypes) ||
+			is_null($plugins)
 		) {
 			$this->status = false;
 		}
@@ -206,6 +209,16 @@ class SaveProjectComponent extends OComponent {
 				}
 			}
 			$this->us->updateProjectIncludes($pr->id, $project_includes);
+
+			$this->us->cleanProjectPlugins($pr->id);
+
+			foreach ($plugins as $plugin) {
+				$p = ProjectPlugin::create();
+				$p->id_project = $pr->id;
+				$p->name       = $plugin['name'];
+				$p->version    = $plugin['version'];
+				$p->save();
+			}
 		}
 	}
 }

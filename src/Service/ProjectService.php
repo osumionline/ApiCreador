@@ -160,7 +160,14 @@ class ProjectService extends OService {
 		}
 		$composer .= "  \"require\": {\n";
 		$composer .= "    \"php\": \">=8.2\",\n";
-		$composer .= "    \"osumionline/framework\": \"^".OTools::getVersion()."\"\n";
+
+		$plugins = $project->getProjectPlugins();
+		$required = ["    \"osumionline/framework\": \"^".OTools::getVersion()."\""];
+		foreach ($plugins as $plugin) {
+			$required[] = "    \"".$plugin->name."\": \"^".$plugin->version."\"";
+		}
+
+		$composer .= implode(",\n", $required)."\n";
 		$composer .= "  },\n";
 		$composer .= "  \"autoload\": {\n";
 		$composer .= "    \"psr-4\": {\n";
@@ -328,7 +335,6 @@ class ProjectService extends OService {
 	 * @return string Archivo JSON con la lista de plugins disponibles
 	 */
 	public function getPluginList(): string {
-		$url = $this->getConfig()->getExtra('plugins_url');
-		return file_get_contents($url);
+		return file_get_contents($this->getConfig()->getExtra('plugins_url'));
 	}
 }

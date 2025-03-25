@@ -4,5 +4,6 @@
 	"configuration": {{configuration}},
 	"lists": {{lists}},
 	"models": {{models}},
-	"includes": {{includes}}
+	"includes": {{includes}},
+	"plugins": {{plugins}}
 }

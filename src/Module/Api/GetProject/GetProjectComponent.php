@@ -9,6 +9,7 @@ use Osumi\OsumiFramework\App\Component\Project\Configuration\ConfigurationCompon
 use Osumi\OsumiFramework\App\Component\Project\Lists\ListsComponent;
 use Osumi\OsumiFramework\App\Component\Project\Models\ModelsComponent;
 use Osumi\OsumiFramework\App\Component\Project\Includes\IncludesComponent;
+use Osumi\OsumiFramework\App\Component\Project\Plugins\PluginsComponent;
 use Osumi\OsumiFramework\App\Model\Project;
 
 class GetProjectComponent extends OComponent {
@@ -18,6 +19,7 @@ class GetProjectComponent extends OComponent {
 	public ?ListsComponent         $lists         = null;
 	public ?ModelsComponent        $models        = null;
 	public ?IncludesComponent      $includes      = null;
+	public ?PluginsComponent       $plugins       = null;
 
 	public function __construct() {
     parent::__construct();
@@ -26,6 +28,7 @@ class GetProjectComponent extends OComponent {
 		$this->lists         = new ListsComponent();
 		$this->models        = new ModelsComponent();
 		$this->includes      = new IncludesComponent();
+		$this->plugins       = new PluginsComponent();
   }
 
 	/**
@@ -53,6 +56,7 @@ class GetProjectComponent extends OComponent {
 					$this->lists->lists                 = $conf->getProjectConfigurationLists();
 					$this->models->models               = $pr->getProjectModels();
 					$this->includes->includes           = $pr->getProjectIncludes();
+					$this->plugins->plugins             = $pr->getProjectPlugins();
 				}
 				else {
 					// El proyecto es de otro usuario

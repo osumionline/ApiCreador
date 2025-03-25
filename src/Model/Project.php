@@ -11,6 +11,7 @@ use Osumi\OsumiFramework\App\Model\Model;
 use Osumi\OsumiFramework\App\Model\ProjectConfig;
 use Osumi\OsumiFramework\App\Model\ProjectInclude;
 use Osumi\OsumiFramework\App\Model\IncludeVersion;
+use Osumi\OsumiFramework\App\Model\ProjectPlugin;
 use Osumi\OsumiFramework\ORM\ODB;
 
 class Project extends OModel {
@@ -242,5 +243,42 @@ class Project extends OModel {
 		}
 
 		$this->setProjectIncludeVersions($versions);
+	}
+
+	/**
+	 * Lista de plugins de un proyecto
+	 */
+	private ?array $project_plugins = null;
+
+	/**
+	 * Obtiene la lista de plugins de un proyecto
+	 *
+	 * @return array Lista de plugins
+	 */
+	public function getProjectPlugins(): array {
+		if (is_null($this->project_plugins)) {
+			$this->loadProjectPlugins();
+		}
+		return $this->project_plugins;
+	}
+
+	/**
+	 * Guarda la lista de plugins de un proyecto
+	 *
+	 * @param array $plugins Lista de plugins
+	 *
+	 * @return void
+	 */
+	public function setProjectPlugins(array $plugins): void {
+		$this->project_plugins = $plugins;
+	}
+
+	/**
+	 * Carga la lista de plugins de un proyecto
+	 *
+	 * @return void
+	 */
+	private function loadProjectPlugins(): void {
+		$this->setProjectPlugins(ProjectPlugin::where(['id_project' => $this->id]));
 	}
 }

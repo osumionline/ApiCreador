@@ -5,5 +5,5 @@ namespace Osumi\OsumiFramework\App\Component\Api\PluginList;
 use Osumi\OsumiFramework\Core\OComponent;
 
 class PluginListComponent extends OComponent {
-  public array $list = [];
+  public string $list = '';
 }

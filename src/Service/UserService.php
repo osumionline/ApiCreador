@@ -79,4 +79,17 @@ class UserService extends OService {
 			$pri->save();
 		}
 	}
+
+	/**
+	 * Limpia los plugins de un proyecto
+	 *
+	 * @param int $id_project Id del proyecto
+	 *
+	 * @return void
+	 */
+	public function cleanProjectPlugins(int $id_project): void {
+		$db = new ODB();
+		$sql = "DELETE FROM `project_plugin` WHERE `id_project` = ?";
+		$db->query($sql, [$id_project]);
+	}
 }
