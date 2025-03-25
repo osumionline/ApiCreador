@@ -3,6 +3,8 @@
 namespace Osumi\OsumiFramework\App\Service;
 
 use Osumi\OsumiFramework\Core\OService;
+use Osumi\OsumiFramework\Tools\OBuild;
+use Osumi\OsumiFramework\Tools\OTools;
 use Osumi\OsumiFramework\Plugins\OCrypt;
 use Osumi\OsumiFramework\Plugins\OFile;
 use Osumi\OsumiFramework\App\Model\Project;
@@ -23,24 +25,16 @@ class ProjectService extends OService {
 		mkdir($route);
 
 		$folder_list = OFile::getOFWFolders();
-
 		foreach ($folder_list as $folder) {
 			mkdir($route . '/' . $folder, 0777, true);
 		}
 
 		$file_list = OFile::getOFWFiles();
-		$file_list[] = ['template' => 'config/translations.json', 'to' => 'app/config/translations.json'];
-		$file_list[] = ['template' => 'config/urls.json',         'to' => 'app/config/urls.json'];
-		$file_list[] = ['template' => 'template/default.php',     'to' => 'app/template/layout/default.php'];
-		$file_list[] = ['template' => 'web/.htaccess',            'to' => 'web/.htaccess'];
-
 		foreach ($file_list as $file) {
-			if (is_array($file)) {
-				copy($this->getConfig()->getDir('include') . 'default/' . $file['template'], $route . '/' . $file['to']);
-			}
-			else {
-				copy($this->getConfig()->getDir('base') . $file, $route . '/' . $file);
-			}
+			file_put_contents(
+				$route . '/' . $file['where'],
+				file_get_contents($file['url'])
+			);
 		}
 	}
 
@@ -53,7 +47,7 @@ class ProjectService extends OService {
 	 */
 	public function createConfigFile(Project $project): void {
 		$crypt = new OCrypt( $this->getConfig()->getExtra('crypt_key') );
-		$route = $this->getConfig()->getDir('ofw_tmp') . 'user_' . $project->id_user . '/project_' . $project->id . '/app/config/config.json';
+		$route = $this->getConfig()->getDir('ofw_tmp') . 'user_' . $project->id_user . '/project_' . $project->id . '/src/Config/Config.json';
 		if (file_exists($route)) {
 			unlink($route);
 		}
@@ -142,6 +136,49 @@ class ProjectService extends OService {
 	}
 
 	/**
+	 * Genera el archivo composer.json del proyecto
+	 *
+	 * @param Project $project Objeto con la información del proyecto
+	 *
+	 * @return void
+	 */
+	public function createComposerFile(Project $project): void {
+		$route = $this->getConfig()->getDir('ofw_tmp') . 'user_' . $project->id_user . '/project_' . $project->id . '/composer.json';
+		if (file_exists($route)) {
+			unlink($route);
+		}
+
+		$configuration = $project->getProjectConfig();
+
+		$composer = "{\n";
+		$composer .= "  \"name\": \"".$project->name."\",\n";
+		$composer .= "  \"description\": \"".$project->description."\",\n";
+		$composer .= "  \"type\": \"project\",\n";
+		$composer .= "  \"keywords\": [\"osumi\", \"framework\"],\n";
+		if (!is_null($configuration->base_url)) {
+			$composer .= "  \"homepage\": \"".$configuration->base_url."\",\n";
+		}
+		$composer .= "  \"require\": {\n";
+		$composer .= "    \"php\": \">=8.2\",\n";
+		$composer .= "    \"osumionline/framework\": \"^".OTools::getVersion()."\"\n";
+		$composer .= "  },\n";
+		$composer .= "  \"autoload\": {\n";
+		$composer .= "    \"psr-4\": {\n";
+		$composer .= "      \"Osumi\\\\OsumiFramework\\\\App\\\\\": \"src/\"\n";
+		$composer .= "    }\n";
+		$composer .= "  },\n";
+		$composer .= "  \"config\": {\n";
+		$composer .= "    \"preferred-install\": \"dist\",\n";
+		$composer .= "    \"sort-packages\": true\n";
+		$composer .= "  },\n";
+		$composer .= "  \"minimum-stability\": \"stable\",\n";
+		$composer .= "  \"prefer-stable\": true\n";
+		$composer .= "}\n";
+
+		file_put_contents($route, $composer);
+	}
+
+	/**
 	 * Crea las clases del modelo del proyecto
 	 *
 	 * @param Project $project Objeto con la información del proyecto
@@ -150,53 +187,69 @@ class ProjectService extends OService {
 	 */
 	public function createModels(Project $project): void {
 		$models = $project->getProjectModels();
+		$types = [
+			1 =>  ['decorator' => 'OPK',        'attribute_type' => 'int'],
+			10 => ['decorator' => 'OPK',        'attribute_type' => 'string'],
+			2 =>  ['decorator' => 'OCreatedAt', 'attribute_type' => 'string'],
+			3 =>  ['decorator' => 'OUpdatedAt', 'attribute_type' => 'string'],
+			4 =>  ['decorator' => 'OField',     'attribute_type' => 'int'],
+			5 =>  ['decorator' => 'OField',     'attribute_type' => 'string'],
+			6 =>  ['decorator' => 'OField',     'attribute_type' => 'string', 'type' => 'OField::DATE'],
+			7 =>  ['decorator' => 'OField',     'attribute_type' => 'bool'],
+			8 =>  ['decorator' => 'OField',     'attribute_type' => 'string', 'type' => 'OField::LONGTEXT'],
+			9 =>  ['decorator' => 'OField',     'attribute_type' => 'float'],
+		];
 
 		foreach ($models as $model) {
-			$route = $this->getConfig()->getDir('ofw_tmp') . 'user_' . $project->id_user . '/project_' . $project->id . '/app/model/' . $model->name . '.php';
+			$route = $this->getConfig()->getDir('ofw_tmp') . 'user_' . $project->id_user . '/project_' . $project->id . '/src/Model/' . $model->name . '.php';
 			if (file_exists($route)) {
 				unlink($route);
 			}
 
-			$mod = "<"."?php declare(strict_types=1);\n";
-			$mod .= "class ".$model->name." extends OModel {\n";
-			$mod .= "	/"."**\n";
-			$mod .= "	 * Configures current model object based on data-base table structure\n";
-			$mod .= "	 */";
-			$mod .= "	function __construct() {\n";
-			$mod .= "		$"."table_name  = '" . $model->table_name . "';\n";
-			$mod .= "		$"."model = [\n";
-			$rows = [];
-			$types = [1 => 'PK', 10 => 'PK_STR', 2 => 'CREATED', 3 => 'UPDATED', 4 => 'NUM', 5 => 'TEXT', 6 => 'DATE', 7 => 'BOOL', 8 => 'LONGTEXT', 9 => 'FLOAT'];
+			$model_object = [
+				'fields' => [],
+				'refs' => []
+			];
+
 			foreach ($model->getRows() as $row) {
-				$str = "			'" . $row->name . "' => [\n";
-				$str .= "				'type'    => OCore::" . $types[$row->type] . ",\n";
-				if ($row->type === 1 && !$row->auto_increment) {
-					$str .= "				'incr' => false,\n";
+				$row_item = [
+					'name' => $row->name,
+					'comment' => $row->comment,
+					'decorator' => $types[$row->type]['decorator'],
+					'attribute_type' => $types[$row->type]['attribute_type'],
+				];
+				if (array_key_exists('type', $types[$row->type])) {
+					$row_item['type'] = $types[$row->type]['type'];
 				}
 				if ($row->type === 3 || $row->type === 4 || $row->type === 5 || $row->type === 6 || $row->type === 8 || $row->type === 9) {
-					$str .= "				'nullable' => " . ($row->nullable ? 'true':'false') . ",\n";
-				}
-				if ($row->type === 3 || $row->type === 4 || $row->type === 5 || $row->type === 6 || $row->type === 8 || $row->type === 9) {
-					$str .= "				'default' => " . (is_null($row->default) ? 'null' : "'" . $row->default . "'") . ",\n";
+					$row_item['nullable'] = $row->nullable;
+					$row_item['default'] = is_null($row->default) ? null : $row->default;
 				}
 				if (!is_null($row->size)) {
-					$str .= "				'size' => " . $row->size . ",\n";
+					$row_item['max'] = $row->size;
 				}
+
+				$model_object['fields'][] = $row_item;
+
 				if (!is_null($row->ref)) {
-					$str .= "				'ref' => '" . $row->ref . "',\n";
+					$ref_parts = explode('.', $row->ref);
+					$model_object['refs'][] = [
+						'to'         => $ref_parts[0],
+	          'field_from' => $ref_parts[1],
+	          'field_to'   => $row->name
+					];
 				}
-				$str .= "				'comment' => '" . $row->comment . "'\n";
-				$str .= "			]";
-
-				$rows[] = $str;
 			}
-			$mod .= implode(",\n", $rows);
-			$mod .= "\n		];\n\n";
-			$mod .= "		parent::load($"."table_name, $"."model);\n";
-			$mod .= "	}\n";
-			$mod .= "}";
 
-			file_put_contents($route, $mod);
+			$values = [
+	      'table_name' => $model->name,
+	      'class_file' => $route,
+	      'fields'     => $model_object['fields'],
+	      'refs'       => $model_object['refs']
+	    ];
+			/*var_dump($values);
+			echo "\n";*/
+	    $status = OBuild::addModelClass($values);
 		}
 	}
 

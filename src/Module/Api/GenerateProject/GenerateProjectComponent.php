@@ -43,15 +43,17 @@ class GenerateProjectComponent extends OComponent {
 						break;
 						case 1: { $this->ps->createConfigFile($pr); }
 						break;
-						case 2: { $this->ps->createModels($pr); }
+						case 2: { $this->ps->createComposerFile($pr); }
 						break;
-						case 3: { $this->ps->addIncludes($pr); }
+						case 3: { $this->ps->createModels($pr); }
 						break;
-						case 4: {
+						case 4: { $this->ps->addIncludes($pr); }
+						break;
+						case 5: {
 							$this->ps->packToZip($pr);
-							$date = date('Y-m-d H:i:s', time());
+							$this->date = date('Y-m-d H:i:s', time());
 
-							$pr->last_compilation = $date;
+							$pr->last_compilation = $this->date;
 							$pr->save();
 						}
 						break;
